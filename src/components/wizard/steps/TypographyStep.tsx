@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useWizardStore } from "@/store/wizard-store";
 import { fontPairings } from "@/data/typography";
 import { cn } from "@/lib/utils";
@@ -14,9 +15,40 @@ const categories: { id: FontCategory; label: string }[] = [
   { id: "rounded", label: "Rounded" },
 ];
 
+// Collect all unique Google Font families with their weights for a single batch load
+const allFontFamilies = (() => {
+  const seen = new Set<string>();
+  const families: string[] = [];
+  for (const pairing of fontPairings) {
+    const headingKey = `${pairing.heading.googleFontId}:wght@${pairing.heading.weight}`;
+    const bodyKey = `${pairing.body.googleFontId}:wght@${pairing.body.weight}`;
+    if (!seen.has(headingKey)) {
+      seen.add(headingKey);
+      families.push(`family=${pairing.heading.googleFontId}:wght@${pairing.heading.weight}`);
+    }
+    if (!seen.has(bodyKey)) {
+      seen.add(bodyKey);
+      families.push(`family=${pairing.body.googleFontId}:wght@${pairing.body.weight}`);
+    }
+  }
+  return families;
+})();
+
 export function TypographyStep() {
   const fontPairingId = useWizardStore((s) => s.fontPairingId);
   const setFontPairingId = useWizardStore((s) => s.setFontPairingId);
+
+  // Load all font pairings from Google Fonts in a single batched request
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = `https://fonts.googleapis.com/css2?${allFontFamilies.join("&")}&display=swap`;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   return (
     <div>
@@ -50,11 +82,11 @@ export function TypographyStep() {
                     <span className="text-sm font-semibold">{pairing.name}</span>
                   </div>
                   <div className="flex items-baseline gap-3 mt-1">
-                    <span className="text-lg font-bold" style={{ fontFamily: `${pairing.heading.family}, sans-serif` }}>
+                    <span className="text-lg font-bold" style={{ fontFamily: `'${pairing.heading.family}', sans-serif` }}>
                       {pairing.heading.family}
                     </span>
                     <span className="text-xs text-muted-foreground">+</span>
-                    <span className="text-sm" style={{ fontFamily: `${pairing.body.family}, sans-serif` }}>
+                    <span className="text-sm" style={{ fontFamily: `'${pairing.body.family}', sans-serif` }}>
                       {pairing.body.family}
                     </span>
                   </div>
