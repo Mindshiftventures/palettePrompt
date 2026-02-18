@@ -5,12 +5,6 @@ import { getFontPairing } from "@/data/typography";
 import { getLayout } from "@/data/layouts";
 import { RADIUS_MAP, SHADOW_MAP, DENSITY_MAP } from "@/types";
 
-const PAGE_TYPE_LABELS = {
-  landing: "Landing Page",
-  ecommerce: "E-commerce Product Page",
-  blog: "Blog / Article Page",
-} as const;
-
 const DENSITY_LABELS = {
   condensed: "compact with tight spacing",
   standard: "standard balanced spacing",
@@ -29,8 +23,8 @@ function buildRoleSection(tool: ToolTarget): string {
   return roles[tool];
 }
 
-function buildContextSection(state: WizardState): string {
-  return `Create a ${PAGE_TYPE_LABELS[state.pageType]} with a strong, cohesive visual identity. The design should feel intentional and polished, not generic.`;
+function buildContextSection(): string {
+  return `The design should have a strong, cohesive visual identity. It should feel intentional and polished, not generic.`;
 }
 
 function buildStyleSection(state: WizardState): string {
@@ -179,18 +173,15 @@ function buildToolConstraints(tool: ToolTarget): string {
   return constraints[tool];
 }
 
-function buildContentGuardrails(): string {
-  return `**Content Guidelines:**
-- Use realistic, high-quality copy — no Lorem Ipsum or placeholder text
-- Write compelling headlines that match the brand tone
-- Include realistic navigation labels, button text, and descriptions
-- All images should be represented as placeholder areas with appropriate aspect ratios`;
+function buildUserPlaceholder(): string {
+  return `[REPLACE THIS: Describe what you want to build — e.g., "A SaaS landing page for a project management tool with pricing, features, and testimonials"]`;
 }
 
 export function generatePrompt(state: WizardState, tool: ToolTarget): string {
   const sections = [
+    buildUserPlaceholder(),
     buildRoleSection(tool),
-    buildContextSection(state),
+    buildContextSection(),
     buildStyleSection(state),
     buildColorSection(state),
     buildTypographySection(state),
@@ -198,7 +189,6 @@ export function generatePrompt(state: WizardState, tool: ToolTarget): string {
     buildSpacingSection(state),
     buildEffectsSection(state),
     buildToolConstraints(tool),
-    buildContentGuardrails(),
   ];
 
   return sections.filter(Boolean).join("\n\n");
