@@ -8,6 +8,7 @@ import {
   Eye,
   Zap,
 } from "lucide-react";
+import { StyleShowcase } from "@/components/home/StyleShowcase";
 
 const tools = [
   { name: "v0", color: "bg-neutral-900 text-white" },
@@ -17,28 +18,6 @@ const tools = [
   { name: "Cursor", color: "bg-green-600 text-white" },
 ];
 
-const styleNames = [
-  "Neo-Brutalist",
-  "Glassmorphism",
-  "Swiss International",
-  "Cinematic Noir",
-  "Claymorphism",
-  "Acid Cyber Y2K",
-  "Bento Grid",
-  "Clean SaaS",
-  "Retro Futurism",
-  "Bold Minimalist",
-  "Organic Natural",
-  "Scrapbook Collage",
-  "Corporate Modern",
-  "Gradient Mesh",
-  "Neumorphism",
-  "Editorial Magazine",
-  "Monochrome Minimal",
-  "Playful Kawaii",
-  "Luxury Premium",
-  "Terminal Hacker",
-];
 
 const steps = [
   {
@@ -168,7 +147,7 @@ export default function HomePage() {
 
       {/* Style showcase */}
       <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
             20 curated visual styles
           </h2>
@@ -176,16 +155,7 @@ export default function HomePage() {
             From Neo-Brutalist to Glassmorphism, each style comes with curated
             colors, fonts, and tokens ready to go.
           </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {styleNames.map((style) => (
-              <span
-                key={style}
-                className="px-3 py-1.5 text-sm font-medium border border-border rounded-lg hover:border-primary/40 hover:bg-primary/5 transition-colors"
-              >
-                {style}
-              </span>
-            ))}
-          </div>
+          <StyleShowcase />
         </div>
       </section>
 
