@@ -1,11 +1,45 @@
 "use client";
 
 import { useWizardStore } from "@/store/wizard-store";
-import { getThemesForStyle, generatePaletteFromBrand } from "@/data/colors";
+import { getThemesForStyle, colorThemes, generatePaletteFromBrand } from "@/data/colors";
+import { getStyleById } from "@/data/styles";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Paintbrush } from "lucide-react";
+import type { ColorTheme } from "@/types";
+
+function PaletteButton({
+  theme,
+  isSelected,
+  onClick,
+}: {
+  theme: ColorTheme;
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "flex flex-col rounded-lg border-2 overflow-hidden text-left transition-all",
+        isSelected
+          ? "border-primary ring-2 ring-primary/20"
+          : "border-border hover:border-primary/40"
+      )}
+    >
+      <div className="flex h-10">
+        <div className="flex-1" style={{ backgroundColor: theme.colors.background }} />
+        <div className="flex-1" style={{ backgroundColor: theme.colors.primary }} />
+        <div className="flex-1" style={{ backgroundColor: theme.colors.secondary }} />
+        <div className="flex-1" style={{ backgroundColor: theme.colors.accent }} />
+      </div>
+      <div className="p-2 bg-card">
+        <p className="text-xs font-medium truncate">{theme.name}</p>
+      </div>
+    </button>
+  );
+}
 
 export function ColorStep() {
   const styleId = useWizardStore((s) => s.styleId);
@@ -15,7 +49,13 @@ export function ColorStep() {
   const setCustomBrandColor = useWizardStore((s) => s.setCustomBrandColor);
   const [brandInput, setBrandInput] = useState(customBrandColor || "#6366f1");
 
-  const themes = getThemesForStyle(styleId);
+  const style = getStyleById(styleId);
+  const recommended = useMemo(() => getThemesForStyle(styleId), [styleId]);
+  const recommendedIds = useMemo(() => new Set(recommended.map((t) => t.id)), [recommended]);
+  const otherThemes = useMemo(
+    () => colorThemes.filter((t) => !recommendedIds.has(t.id)),
+    [recommendedIds]
+  );
 
   const handleBrandColor = (color: string) => {
     setBrandInput(color);
@@ -25,6 +65,11 @@ export function ColorStep() {
     }
   };
 
+  const handleSelectTheme = (id: string) => {
+    setColorThemeId(id);
+    setCustomBrandColor(null);
+  };
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-1">Choose your colors</h2>
@@ -32,40 +77,41 @@ export function ColorStep() {
         Pick a curated palette that matches your style, or generate one from your brand color.
       </p>
 
-      {/* Pre-built palettes */}
-      <div className="space-y-3 mb-8">
+      {/* Recommended palettes */}
+      <div className="space-y-3 mb-6">
         <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Curated Palettes
+          Recommended for {style?.name ?? "your style"}
         </Label>
         <div className="grid grid-cols-2 gap-3">
-          {themes.map((theme) => (
-            <button
+          {recommended.map((theme) => (
+            <PaletteButton
               key={theme.id}
-              onClick={() => {
-                setColorThemeId(theme.id);
-                setCustomBrandColor(null);
-              }}
-              className={cn(
-                "flex flex-col rounded-lg border-2 overflow-hidden text-left transition-all",
-                colorThemeId === theme.id && !customBrandColor
-                  ? "border-primary ring-2 ring-primary/20"
-                  : "border-border hover:border-primary/40"
-              )}
-            >
-              {/* Color swatches */}
-              <div className="flex h-10">
-                <div className="flex-1" style={{ backgroundColor: theme.colors.background }} />
-                <div className="flex-1" style={{ backgroundColor: theme.colors.primary }} />
-                <div className="flex-1" style={{ backgroundColor: theme.colors.secondary }} />
-                <div className="flex-1" style={{ backgroundColor: theme.colors.accent }} />
-              </div>
-              <div className="p-2 bg-card">
-                <p className="text-xs font-medium truncate">{theme.name}</p>
-              </div>
-            </button>
+              theme={theme}
+              isSelected={colorThemeId === theme.id && !customBrandColor}
+              onClick={() => handleSelectTheme(theme.id)}
+            />
           ))}
         </div>
       </div>
+
+      {/* All other palettes */}
+      {otherThemes.length > 0 && (
+        <div className="space-y-3 mb-8">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            All Palettes
+          </Label>
+          <div className="grid grid-cols-2 gap-3">
+            {otherThemes.map((theme) => (
+              <PaletteButton
+                key={theme.id}
+                theme={theme}
+                isSelected={colorThemeId === theme.id && !customBrandColor}
+                onClick={() => handleSelectTheme(theme.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Brand color picker */}
       <div className="space-y-3">
