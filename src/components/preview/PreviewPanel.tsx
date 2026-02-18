@@ -121,17 +121,6 @@ export function PreviewPanel() {
           />
         )}
 
-        {/* Blur overlay — backdrop-blur on a semi-transparent layer */}
-        {state.effects.blur > 0 && (
-          <div
-            className="pointer-events-none absolute inset-0 z-30"
-            style={{
-              backdropFilter: `blur(${(state.effects.blur / 100) * 4}px)`,
-              backgroundColor: `${colors.background}${Math.round((state.effects.blur / 100) * 15).toString(16).padStart(2, "0")}`,
-            }}
-          />
-        )}
-
         {/* Glow effect — colored ambient glow behind content */}
         {state.effects.glow > 0 && state.shadowStyle !== "none" && (
           <div

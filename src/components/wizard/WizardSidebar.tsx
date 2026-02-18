@@ -9,10 +9,8 @@ import {
   Type,
   LayoutGrid,
   Sparkles,
-  Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const iconMap = {
   Layout,
@@ -23,11 +21,7 @@ const iconMap = {
   Sparkles,
 } as const;
 
-interface WizardSidebarProps {
-  onGeneratePrompt: () => void;
-}
-
-export function WizardSidebar({ onGeneratePrompt }: WizardSidebarProps) {
+export function WizardSidebar() {
   const currentStep = useWizardStore((s) => s.currentStep);
   const setStep = useWizardStore((s) => s.setStep);
 
@@ -64,17 +58,6 @@ export function WizardSidebar({ onGeneratePrompt }: WizardSidebarProps) {
           );
         })}
       </nav>
-
-      <div className="p-3 border-t border-border">
-        <Button
-          className="w-full"
-          size="sm"
-          onClick={onGeneratePrompt}
-        >
-          <Code2 className="h-4 w-4 mr-1.5" />
-          Generate Prompt
-        </Button>
-      </div>
     </div>
   );
 }

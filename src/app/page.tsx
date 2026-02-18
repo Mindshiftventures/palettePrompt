@@ -7,17 +7,13 @@ import {
   Wand2,
   Eye,
   Zap,
+  ChevronRight,
 } from "lucide-react";
 import { StyleShowcase } from "@/components/home/StyleShowcase";
+import { toolLogos } from "@/components/shared/ToolLogos";
+import type { ToolTarget } from "@/types";
 
-const tools = [
-  { name: "v0", color: "bg-neutral-900 text-white" },
-  { name: "Lovable", color: "bg-rose-600 text-white" },
-  { name: "Figma Make", color: "bg-purple-600 text-white" },
-  { name: "Claude Code", color: "bg-amber-600 text-white" },
-  { name: "Cursor", color: "bg-green-600 text-white" },
-];
-
+const toolOrder: ToolTarget[] = ["v0", "lovable", "figma-make", "claude-code", "cursor"];
 
 const steps = [
   {
@@ -25,24 +21,36 @@ const steps = [
     title: "Pick your style",
     description:
       "Choose from 20 curated visual styles — Neo-Brutalist, Glassmorphism, Swiss, and more.",
+    color: "from-violet-500/20 to-violet-500/5",
+    iconBg: "bg-violet-500/15",
+    iconColor: "text-violet-600",
   },
   {
     icon: Wand2,
     title: "Customize everything",
     description:
       "Fine-tune colors, typography, layout, spacing, and effects to match your vision.",
+    color: "from-blue-500/20 to-blue-500/5",
+    iconBg: "bg-blue-500/15",
+    iconColor: "text-blue-600",
   },
   {
     icon: Eye,
     title: "See it live",
     description:
-      "Watch your choices come alive in a real-time preview across landing page, e-commerce, and blog templates.",
+      "Watch your choices come alive in a real-time preview across landing, e-commerce, and blog templates.",
+    color: "from-emerald-500/20 to-emerald-500/5",
+    iconBg: "bg-emerald-500/15",
+    iconColor: "text-emerald-600",
   },
   {
     icon: Copy,
     title: "Copy your prompt",
     description:
-      "Get a perfectly crafted, tool-specific prompt optimized for v0, Lovable, Figma Make, Claude Code, or Cursor.",
+      "Get a tool-specific prompt optimized for your chosen AI coding assistant.",
+    color: "from-amber-500/20 to-amber-500/5",
+    iconBg: "bg-amber-500/15",
+    iconColor: "text-amber-600",
   },
 ];
 
@@ -71,17 +79,17 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 text-xs font-semibold bg-primary/10 text-primary rounded-full">
             <Zap className="h-3 w-3" />
-            Free tool — No signup required
+            Turn visual taste into pixel-perfect prompts
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
-            Stop writing vague
+            Your design vision,
             <br />
-            design prompts
+            their pixel-perfect code
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-            Pick your style visually, customize every detail, and get
-            tool-optimized prompts that produce stunning results — not generic
-            Bootstrap-looking output.
+            AI tools produce generic output because prompts lack design specifics.
+            PalettePrompt lets you visually define your style, then generates
+            detailed, tool-optimized prompts that produce exactly what you envision.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link
@@ -93,49 +101,89 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Tool badges */}
-          <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
-            <span className="text-xs text-muted-foreground mr-2">
+          {/* Tool logos */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <span className="text-xs text-muted-foreground mr-1">
               Optimized for:
             </span>
-            {tools.map((tool) => (
-              <span
-                key={tool.name}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md ${tool.color}`}
-              >
-                {tool.name}
-              </span>
-            ))}
+            {toolOrder.map((id) => {
+              const Logo = toolLogos[id];
+              return <Logo key={id} className="h-7 w-7" />;
+            })}
           </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
-            How it works
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Four steps from vision to prompt. No design skills needed.
-          </p>
-          <div className="grid md:grid-cols-2 gap-6">
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/50 via-muted/20 to-transparent" />
+        <div className="max-w-5xl mx-auto relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-semibold bg-primary/10 text-primary rounded-full">
+              4 simple steps
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4">
+              How it works
+            </h2>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              From vision to prompt in under a minute. No design skills needed.
+            </p>
+          </div>
+
+          {/* Desktop: horizontal flow with cards */}
+          <div className="hidden md:grid md:grid-cols-4 gap-4">
             {steps.map((step, i) => (
-              <div
-                key={step.title}
-                className="flex gap-4 p-6 bg-background rounded-xl border border-border"
-              >
-                <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 shrink-0">
-                  <step.icon className="h-5 w-5 text-primary" />
+              <div key={step.title} className="relative group">
+                {/* Connector arrow */}
+                {i < steps.length - 1 && (
+                  <div className="absolute top-12 -right-2 z-10">
+                    <ChevronRight className="h-4 w-4 text-muted-foreground/40" />
+                  </div>
+                )}
+
+                <div className={`h-full rounded-2xl border border-border bg-gradient-to-b ${step.color} p-6 transition-all hover:shadow-lg hover:-translate-y-1`}>
+                  {/* Step number */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${step.iconBg}`}>
+                      <step.icon className={`h-6 w-6 ${step.iconColor}`} />
+                    </div>
+                    <span className="text-4xl font-black text-foreground/[0.06]">
+                      {i + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="font-bold text-base mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
-                <div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile: vertical timeline */}
+          <div className="md:hidden">
+            {steps.map((step, i) => (
+              <div key={step.title} className="flex gap-4 mb-1 last:mb-0">
+                {/* Timeline */}
+                <div className="flex flex-col items-center">
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${step.iconBg} shrink-0 z-10`}>
+                    <step.icon className={`h-5 w-5 ${step.iconColor}`} />
+                  </div>
+                  {i < steps.length - 1 && (
+                    <div className="w-px flex-1 bg-border my-1" />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="pb-8">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold text-muted-foreground">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                       Step {i + 1}
                     </span>
                   </div>
-                  <h3 className="font-semibold mb-1">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-bold mb-1">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -159,34 +207,65 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* The problem */}
+      {/* The problem — Semantic Translation Gap */}
       <section className="py-24 px-6 bg-muted/30">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
             The Semantic Translation Gap
           </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-background rounded-xl border border-destructive/30">
+          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 items-stretch">
+            {/* Before */}
+            <div className="p-6 bg-background rounded-xl border border-destructive/30 flex flex-col">
               <p className="text-xs font-bold text-destructive uppercase tracking-wider mb-3">
-                What you type
+                Vague prompt
               </p>
-              <p className="text-sm italic text-muted-foreground">
+              <p className="text-sm italic text-muted-foreground mb-4">
                 &quot;Make it look edgy and modern with a dark theme&quot;
               </p>
+              {/* Mini generic UI mockup */}
+              <div className="mt-auto rounded-lg border border-border bg-neutral-100 p-3 space-y-2">
+                <div className="h-2 w-20 bg-neutral-300 rounded" />
+                <div className="flex gap-2">
+                  <div className="h-8 flex-1 bg-neutral-200 rounded" />
+                  <div className="h-8 flex-1 bg-neutral-200 rounded" />
+                </div>
+                <div className="h-3 w-full bg-neutral-200 rounded" />
+                <div className="h-3 w-3/4 bg-neutral-200 rounded" />
+              </div>
               <p className="text-xs text-destructive mt-3">
                 Result: Generic dark UI with default shadows
               </p>
             </div>
-            <div className="p-6 bg-background rounded-xl border border-green-500/30">
+
+            {/* Arrow */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="flex flex-col items-center gap-1">
+                <ArrowRight className="h-6 w-6 text-primary" />
+                <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">PalettePrompt</span>
+              </div>
+            </div>
+            <div className="md:hidden flex items-center justify-center py-1">
+              <ArrowRight className="h-5 w-5 text-primary rotate-90" />
+            </div>
+
+            {/* After */}
+            <div className="p-6 bg-background rounded-xl border border-green-500/30 flex flex-col">
               <p className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">
-                What PalettePrompt generates
+                PalettePrompt output
               </p>
-              <p className="text-sm italic text-muted-foreground">
-                &quot;Apply a Neo-Brutalist aesthetic with 3px black borders,
-                hard 4px offset shadows, no border radius. Color palette: bg
-                #000, primary #CCFF00, text #FFF. Use Space Mono for headings at
-                700 weight...&quot;
+              <p className="text-sm italic text-muted-foreground mb-4">
+                &quot;Neo-Brutalist: 3px black borders, hard 4px offset shadows, 0px radius. Palette: bg #000, primary #CCFF00...&quot;
               </p>
+              {/* Mini styled UI mockup */}
+              <div className="mt-auto rounded-none border-2 border-black bg-black p-3 space-y-2">
+                <div className="h-2 w-20 bg-[#CCFF00] rounded-none" />
+                <div className="flex gap-2">
+                  <div className="h-8 flex-1 bg-[#CCFF00] rounded-none border-2 border-[#CCFF00]" />
+                  <div className="h-8 flex-1 bg-transparent rounded-none border-2 border-[#CCFF00]" />
+                </div>
+                <div className="h-3 w-full bg-neutral-700 rounded-none" />
+                <div className="h-3 w-3/4 bg-neutral-700 rounded-none" />
+              </div>
               <p className="text-xs text-green-600 mt-3">
                 Result: Exactly what you envisioned
               </p>

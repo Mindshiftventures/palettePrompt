@@ -3,10 +3,12 @@
 import { useState, useCallback } from "react";
 import { useWizardStore } from "@/store/wizard-store";
 import { generatePrompt } from "@/lib/prompt-engine";
-import { ToolTabs } from "./ToolTabs";
+import { ToolLogoCard, toolLabels } from "@/components/shared/ToolLogos";
 import type { ToolTarget } from "@/types";
-import { X, Copy, Check, Download } from "lucide-react";
+import { X, Copy, Check, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const TOOLS: ToolTarget[] = ["v0", "lovable", "figma-make", "claude-code", "cursor"];
 
 interface PromptOutputProps {
   onClose: () => void;
@@ -35,16 +37,29 @@ export function PromptOutput({ onClose }: PromptOutputProps) {
     URL.revokeObjectURL(url);
   }, [prompt, activeTool]);
 
+  const sections = [
+    state.styleId && "style",
+    state.colorThemeId && "colors",
+    state.fontPairingId && "typography",
+    state.layoutId && "layout",
+    "effects",
+  ].filter(Boolean);
+
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="w-full max-w-3xl max-h-[90vh] mx-4 bg-background rounded-xl border border-border shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="w-full max-w-lg max-h-[90vh] bg-background rounded-xl border border-border shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <div>
-            <h2 className="text-lg font-bold">Generated Prompt</h2>
-            <p className="text-sm text-muted-foreground">
-              Copy this prompt and paste it into your preferred tool
-            </p>
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+              <Sparkles className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold">Your prompt is ready!</h2>
+              <p className="text-sm text-muted-foreground">
+                Choose a tool and copy your prompt
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -54,42 +69,53 @@ export function PromptOutput({ onClose }: PromptOutputProps) {
           </button>
         </div>
 
-        {/* Tool tabs */}
-        <div className="px-6 py-3 border-b border-border">
-          <ToolTabs activeTool={activeTool} onSelect={setActiveTool} />
+        {/* Tool selection */}
+        <div className="px-4 sm:px-6 py-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+            Select your tool
+          </p>
+          <div className="grid grid-cols-5 gap-2">
+            {TOOLS.map((tool) => (
+              <ToolLogoCard
+                key={tool}
+                tool={tool}
+                selected={activeTool === tool}
+                onClick={() => setActiveTool(tool)}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Prompt content */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <pre className="whitespace-pre-wrap text-sm font-mono leading-relaxed text-foreground/90">
-            {prompt}
-          </pre>
+        {/* Prompt summary */}
+        <div className="px-4 sm:px-6 py-4 border-t border-border bg-muted/30">
+          <p className="text-sm text-muted-foreground">
+            Prompt for <span className="font-semibold text-foreground">{toolLabels[activeTool]}</span>
+            {" — "}
+            <span className="font-medium">{prompt.length.toLocaleString()}</span> characters
+            {" covering "}
+            {sections.join(", ")}.
+          </p>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-muted/30">
-          <p className="text-xs text-muted-foreground">
-            {prompt.length.toLocaleString()} characters
-          </p>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleDownload}>
-              <Download className="h-4 w-4 mr-1" />
-              Download
-            </Button>
-            <Button size="sm" onClick={handleCopy}>
-              {copied ? (
-                <>
-                  <Check className="h-4 w-4 mr-1" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="h-4 w-4 mr-1" />
-                  Copy to Clipboard
-                </>
-              )}
-            </Button>
-          </div>
+        <div className="flex items-center gap-2 px-4 sm:px-6 py-4 border-t border-border">
+          <Button className="flex-1" size="lg" onClick={handleCopy}>
+            {copied ? (
+              <>
+                <Check className="h-4 w-4 mr-1.5" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="h-4 w-4 mr-1.5" />
+                Copy to Clipboard
+              </>
+            )}
+          </Button>
+          <Button variant="outline" size="lg" onClick={handleDownload}>
+            <Download className="h-4 w-4 mr-1.5" />
+            Download
+          </Button>
         </div>
       </div>
     </div>

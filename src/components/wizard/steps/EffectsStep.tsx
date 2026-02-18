@@ -5,7 +5,7 @@ import type { DensityLevel, RadiusToken, ShadowToken } from "@/types";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Sparkles, Droplets, Sun, Blend } from "lucide-react";
+import { Sparkles, Sun, Blend } from "lucide-react";
 
 const densityOptions: { id: DensityLevel; label: string; description: string }[] = [
   { id: "condensed", label: "Condensed", description: "Tight, compact spacing" },
@@ -31,7 +31,6 @@ const shadowOptions: { id: ShadowToken; label: string }[] = [
 
 const effectSliders = [
   { key: "grain" as const, label: "Grain Texture", icon: Sparkles, description: "Film grain overlay" },
-  { key: "blur" as const, label: "Blur Effects", icon: Droplets, description: "Frosted glass and backdrop blur" },
   { key: "glow" as const, label: "Glow Effects", icon: Sun, description: "Neon glow and light bloom" },
   { key: "gradient" as const, label: "Gradient Overlays", icon: Blend, description: "Smooth color transitions" },
 ];
@@ -80,7 +79,7 @@ export function EffectsStep() {
               )}
             >
               <p className="text-sm font-medium">{opt.label}</p>
-              <p className="text-xs text-muted-foreground">{opt.description}</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">{opt.description}</p>
             </button>
           ))}
         </div>
@@ -91,13 +90,13 @@ export function EffectsStep() {
         <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 block">
           Border Radius
         </Label>
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto pb-1">
           {radiusOptions.map((opt) => (
             <button
               key={opt.id}
               onClick={() => setBorderRadius(opt.id)}
               className={cn(
-                "flex-1 flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all",
+                "min-w-[60px] shrink-0 flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all",
                 borderRadius === opt.id
                   ? "border-primary bg-primary/5"
                   : "border-border hover:border-primary/30"

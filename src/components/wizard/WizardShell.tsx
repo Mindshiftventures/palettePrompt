@@ -47,7 +47,7 @@ export function WizardShell() {
     <div className="flex h-dvh bg-background overflow-hidden">
       {/* Sidebar - hidden on mobile */}
       <div className="hidden md:block relative z-10">
-        <WizardSidebar onGeneratePrompt={() => setShowPrompt(true)} />
+        <WizardSidebar />
       </div>
 
       {/* Main content area */}
@@ -147,8 +147,8 @@ export function WizardShell() {
             </Button>
           </div>
 
-          {/* Preview toolbar: page type switcher + viewport toggle */}
-          <div className="flex items-center justify-between p-2 border-b border-border bg-background/80 backdrop-blur-sm shrink-0">
+          {/* Preview toolbar: page type switcher + viewport toggle + generate */}
+          <div className="flex items-center justify-center md:justify-between p-2 border-b border-border bg-background/80 backdrop-blur-sm shrink-0">
             {/* Page type switcher */}
             <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
               {pageTypes.map(({ id, label, icon: Icon }) => (
@@ -168,26 +168,36 @@ export function WizardShell() {
               ))}
             </div>
 
-            {/* Viewport toggle */}
-            <div className="hidden md:flex items-center gap-1 bg-muted rounded-lg p-0.5">
-              {([
-                { id: "desktop" as PreviewViewport, icon: Monitor, label: "Desktop" },
-                { id: "mobile" as PreviewViewport, icon: Smartphone, label: "Mobile" },
-              ]).map(({ id, icon: Icon, label }) => (
-                <button
-                  key={id}
-                  onClick={() => setPreviewViewport(id)}
-                  title={label}
-                  className={cn(
-                    "flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all",
-                    previewViewport === id
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                </button>
-              ))}
+            {/* Viewport toggle + Generate button */}
+            <div className="hidden md:flex items-center gap-2">
+              <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+                {([
+                  { id: "desktop" as PreviewViewport, icon: Monitor, label: "Desktop" },
+                  { id: "mobile" as PreviewViewport, icon: Smartphone, label: "Mobile" },
+                ]).map(({ id, icon: Icon, label }) => (
+                  <button
+                    key={id}
+                    onClick={() => setPreviewViewport(id)}
+                    title={label}
+                    className={cn(
+                      "flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all",
+                      previewViewport === id
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                  </button>
+                ))}
+              </div>
+
+              <Button
+                size="sm"
+                onClick={() => setShowPrompt(true)}
+              >
+                <Code2 className="h-4 w-4 mr-1.5" />
+                Generate Prompt
+              </Button>
             </div>
           </div>
 
