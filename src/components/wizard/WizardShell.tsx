@@ -44,7 +44,7 @@ export function WizardShell() {
   const isFirstStep = currentStep === 0;
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
+    <div className="flex h-dvh bg-background overflow-hidden">
       {/* Sidebar - hidden on mobile */}
       <div className="hidden md:block relative z-10">
         <WizardSidebar onGeneratePrompt={() => setShowPrompt(true)} />
