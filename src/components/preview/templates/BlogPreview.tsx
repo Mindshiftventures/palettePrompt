@@ -18,13 +18,14 @@ function usePreviewStyles() {
     secondary: "#a855f7", accent: "#ec4899", muted: "#f1f5f9", border: "#e2e8f0",
   };
   const r = RADIUS_MAP[state.borderRadius];
+  const cardR = r === "999px" ? "24px" : r;
   const s = SHADOW_MAP[state.shadowStyle];
   const d = DENSITY_MAP[state.density];
   const headingFont = fontPairing ? `'${fontPairing.heading.family}', sans-serif` : "sans-serif";
   const bodyFont = fontPairing ? `'${fontPairing.body.family}', sans-serif` : "sans-serif";
   const glow = state.effects.glow;
 
-  return { c, r, s, d, headingFont, bodyFont, glow };
+  return { c, r, cardR, s, d, headingFont, bodyFont, glow };
 }
 
 const posts = [
@@ -69,7 +70,7 @@ const posts = [
 const sidebarTags = ["Design", "Typography", "Color", "Engineering", "Product", "UX Research"];
 
 export function BlogPreview() {
-  const { c, r, s, d, headingFont, bodyFont, glow } = usePreviewStyles();
+  const { c, r, cardR, s, d, headingFont, bodyFont, glow } = usePreviewStyles();
 
   const featured = posts[0];
   const rest = posts.slice(1);
@@ -99,7 +100,7 @@ export function BlogPreview() {
           <div
             className="overflow-hidden"
             style={{
-              borderRadius: r,
+              borderRadius: cardR,
               boxShadow: s,
               border: `1px solid ${c.border}`,
               backgroundColor: c.background,
@@ -177,7 +178,7 @@ export function BlogPreview() {
                 key={post.title}
                 className="flex gap-4 p-4"
                 style={{
-                  borderRadius: r,
+                  borderRadius: cardR,
                   boxShadow: s,
                   border: `1px solid ${c.border}`,
                   backgroundColor: c.background,
@@ -186,7 +187,7 @@ export function BlogPreview() {
                 {/* Thumbnail */}
                 <div
                   className="w-24 h-24 shrink-0"
-                  style={{ backgroundColor: c.muted, borderRadius: r }}
+                  style={{ backgroundColor: c.muted, borderRadius: cardR }}
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -259,7 +260,7 @@ export function BlogPreview() {
             <div
               className="p-4"
               style={{
-                borderRadius: r,
+                borderRadius: cardR,
                 backgroundColor: c.primary + "10",
                 border: `1px solid ${c.primary}30`,
               }}

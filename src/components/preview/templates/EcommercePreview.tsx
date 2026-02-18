@@ -18,13 +18,14 @@ function usePreviewStyles() {
     secondary: "#a855f7", accent: "#ec4899", muted: "#f1f5f9", border: "#e2e8f0",
   };
   const r = RADIUS_MAP[state.borderRadius];
+  const cardR = r === "999px" ? "24px" : r;
   const s = SHADOW_MAP[state.shadowStyle];
   const d = DENSITY_MAP[state.density];
   const headingFont = fontPairing ? `'${fontPairing.heading.family}', sans-serif` : "sans-serif";
   const bodyFont = fontPairing ? `'${fontPairing.body.family}', sans-serif` : "sans-serif";
   const glow = state.effects.glow;
 
-  return { c, r, s, d, headingFont, bodyFont, glow };
+  return { c, r, cardR, s, d, headingFont, bodyFont, glow };
 }
 
 const products = [
@@ -39,7 +40,7 @@ const products = [
 const categories = ["All", "Clothing", "Accessories", "Shoes", "Bags"];
 
 export function EcommercePreview() {
-  const { c, r, s, d, headingFont, bodyFont, glow } = usePreviewStyles();
+  const { c, r, cardR, s, d, headingFont, bodyFont, glow } = usePreviewStyles();
 
   return (
     <div style={{ fontFamily: bodyFont }}>
@@ -117,7 +118,7 @@ export function EcommercePreview() {
                 key={product.name}
                 className="group flex flex-col overflow-hidden"
                 style={{
-                  borderRadius: r,
+                  borderRadius: cardR,
                   boxShadow: s,
                   border: `1px solid ${c.border}`,
                   backgroundColor: c.background,
