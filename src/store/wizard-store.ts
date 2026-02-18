@@ -14,10 +14,10 @@ const initialState: WizardState = {
   borderRadius: "none",
   shadowStyle: "hard",
   effects: {
-    grain: false,
-    blur: false,
-    glow: false,
-    gradient: false,
+    grain: 0,
+    blur: 0,
+    glow: 0,
+    gradient: 0,
   },
 };
 
