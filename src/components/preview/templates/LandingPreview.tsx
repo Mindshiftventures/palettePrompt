@@ -64,14 +64,14 @@ export function LandingPreview() {
         <span style={{ fontFamily: headingFont, fontWeight: 700, fontSize: 18, color: c.foreground }}>
           BrandName
         </span>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           {["Features", "Pricing", "About"].map((item) => (
-            <span key={item} className="text-sm" style={{ color: c.foreground, opacity: 0.7 }}>
+            <span key={item} className="text-xs hidden sm:inline" style={{ color: c.foreground, opacity: 0.7 }}>
               {item}
             </span>
           ))}
           <span
-            className="text-sm px-4 py-2"
+            className="text-xs px-3 py-1.5"
             style={{
               backgroundColor: c.primary,
               color: c.background,
@@ -107,12 +107,12 @@ export function LandingPreview() {
           <p className="text-lg mb-8 max-w-xl mx-auto" style={{ color: c.foreground, opacity: 0.6 }}>
             The all-in-one platform that helps teams ship quality software with confidence and speed.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <span style={btnStyle} className="inline-flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <span style={btnStyle} className="inline-flex items-center gap-2 text-sm">
               Start free trial <ArrowRight className="h-4 w-4" />
             </span>
             <span
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium"
               style={{
                 border: `2px solid ${c.border}`,
                 borderRadius: r,
@@ -137,7 +137,7 @@ export function LandingPreview() {
           <p className="text-center text-sm mb-10" style={{ color: c.foreground, opacity: 0.6 }}>
             Powerful features to help you build and scale
           </p>
-          <div className={`grid grid-cols-3 ${d.element}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-3 ${d.element}`}>
             {[
               { icon: Zap, title: "Lightning Fast", desc: "Optimized for speed and performance at every level." },
               { icon: Shield, title: "Secure by Default", desc: "Enterprise-grade security with zero configuration." },
@@ -198,7 +198,7 @@ export function LandingPreview() {
             <span style={btnStyle} className="inline-flex items-center gap-2">
               Start your free trial <ArrowRight className="h-4 w-4" />
             </span>
-            <div className="flex items-center gap-4 text-xs" style={{ color: c.foreground, opacity: 0.5 }}>
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs" style={{ color: c.foreground, opacity: 0.5 }}>
               {["No credit card required", "14-day free trial", "Cancel anytime"].map((item) => (
                 <span key={item} className="flex items-center gap-1">
                   <Check className="h-3 w-3" /> {item}

@@ -111,12 +111,6 @@ function buildEffectsSection(state: WizardState): string {
       `Apply a ${w} grain/noise texture overlay across the page for a tactile, analog feel.`
     );
   }
-  if (state.effects.blur) {
-    const w = intensityWord(state.effects.blur);
-    effects.push(
-      `Use ${w} backdrop-blur and frosted glass effects on overlapping elements (cards, modals, navbars) for depth.`
-    );
-  }
   if (state.effects.glow) {
     const w = intensityWord(state.effects.glow);
     effects.push(

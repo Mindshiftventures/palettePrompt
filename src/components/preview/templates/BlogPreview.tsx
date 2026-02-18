@@ -88,9 +88,9 @@ export function BlogPreview() {
         <span style={{ fontFamily: headingFont, fontWeight: 700, fontSize: 18, color: c.foreground }}>
           The Design Blog
         </span>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 flex-wrap">
           {["Articles", "Tutorials", "Resources"].map((item) => (
-            <span key={item} className="text-sm" style={{ color: c.foreground, opacity: 0.7 }}>
+            <span key={item} className="text-xs" style={{ color: c.foreground, opacity: 0.7 }}>
               {item}
             </span>
           ))}

@@ -85,7 +85,7 @@ export function EcommercePreview() {
       </nav>
 
       {/* Category nav */}
-      <div className="px-6 py-3 flex items-center gap-4" style={{ borderBottom: `1px solid ${c.border}` }}>
+      <div className="px-6 py-3 flex items-center gap-4 overflow-x-auto whitespace-nowrap" style={{ borderBottom: `1px solid ${c.border}` }}>
         {categories.map((cat, i) => (
           <span
             key={cat}
@@ -182,7 +182,7 @@ export function EcommercePreview() {
                         ...(glow ? { boxShadow: `0 0 12px ${c.primary}40` } : {}),
                       }}
                     >
-                      Add to Cart
+                      Add
                     </span>
                   </div>
                 </div>
