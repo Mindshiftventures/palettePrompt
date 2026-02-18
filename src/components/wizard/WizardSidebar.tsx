@@ -7,7 +7,6 @@ import {
   Palette,
   Paintbrush,
   Type,
-  LayoutGrid,
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,7 +16,6 @@ const iconMap = {
   Palette,
   Paintbrush,
   Type,
-  LayoutGrid,
   Sparkles,
 } as const;
 

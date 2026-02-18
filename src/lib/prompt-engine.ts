@@ -2,7 +2,6 @@ import type { WizardState, ToolTarget } from "@/types";
 import { getStyleById } from "@/data/styles";
 import { getColorTheme, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
-import { getLayout } from "@/data/layouts";
 import { RADIUS_MAP, SHADOW_MAP, DENSITY_MAP } from "@/types";
 
 const DENSITY_LABELS = {
@@ -63,26 +62,6 @@ function buildTypographySection(state: WizardState): string {
 - Headings: ${fonts.heading.family} (weight: ${fonts.heading.weight}) — use for all h1-h3 elements, hero text, and section titles
 - Body: ${fonts.body.family} (weight: ${fonts.body.weight}) — use for paragraphs, descriptions, and UI text
 - Import from Google Fonts: ${fonts.heading.family}${fonts.heading.family !== fonts.body.family ? ` and ${fonts.body.family}` : ""}`;
-}
-
-function buildLayoutSection(state: WizardState): string {
-  const layout = getLayout(state.layoutId);
-  if (!layout) return "";
-
-  const layoutInstructions: Record<string, string> = {
-    "hero-stacked":
-      "Use a Hero + Stacked Sections layout: Start with a prominent hero section (large headline, subtext, CTA button), followed by vertically stacked content sections (features grid, testimonials, pricing, footer).",
-    "bento-grid":
-      "Use a Bento Grid layout: Organize content in a modular grid of cards with varying sizes (some 1x1, some 2x1, some 1x2). Cards should have uniform border radius and consistent gaps, inspired by Apple's product pages.",
-    "single-column":
-      "Use a Single Column layout: Center all content in a narrow column (max-width ~680px). This editorial style prioritizes readability with ample margins and clear visual hierarchy.",
-    "sidebar-content":
-      "Use a Sidebar + Content layout: Fixed left sidebar (240px) with navigation links, and a main content area on the right. The sidebar should have a subtle border or background differentiation.",
-    "full-width":
-      "Use a Full-width Sections layout: Each section spans the full viewport width edge-to-edge. Alternate between content sections with different background colors or treatments for visual rhythm.",
-  };
-
-  return `**Layout:**\n${layoutInstructions[state.layoutId] || layout.description}`;
 }
 
 function buildSpacingSection(state: WizardState): string {
@@ -181,7 +160,6 @@ export function generatePrompt(state: WizardState, tool: ToolTarget): string {
     buildStyleSection(state),
     buildColorSection(state),
     buildTypographySection(state),
-    buildLayoutSection(state),
     buildSpacingSection(state),
     buildEffectsSection(state),
     buildToolConstraints(tool),

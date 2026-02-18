@@ -5,7 +5,6 @@ import { WizardSidebar } from "./WizardSidebar";
 import { StyleStep } from "./steps/StyleStep";
 import { ColorStep } from "./steps/ColorStep";
 import { TypographyStep } from "./steps/TypographyStep";
-import { LayoutStep } from "./steps/LayoutStep";
 import { EffectsStep } from "./steps/EffectsStep";
 import { PreviewPanel } from "@/components/preview/PreviewPanel";
 import { PromptOutput } from "@/components/output/PromptOutput";
@@ -19,7 +18,6 @@ const steps = [
   StyleStep,
   ColorStep,
   TypographyStep,
-  LayoutStep,
   EffectsStep,
 ];
 
