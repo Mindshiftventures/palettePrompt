@@ -41,7 +41,6 @@ export function PromptOutput({ onClose }: PromptOutputProps) {
     state.styleId && "style",
     state.colorThemeId && "colors",
     state.fontPairingId && "typography",
-    state.layoutId && "layout",
     "effects",
   ].filter(Boolean);
 

@@ -149,6 +149,5 @@ export const WIZARD_STEPS = [
   { id: 0, label: "Style", icon: "Palette" },
   { id: 1, label: "Colors", icon: "Paintbrush" },
   { id: 2, label: "Typography", icon: "Type" },
-  { id: 3, label: "Layout", icon: "LayoutGrid" },
-  { id: 4, label: "Effects", icon: "Sparkles" },
+  { id: 3, label: "Effects", icon: "Sparkles" },
 ] as const;
