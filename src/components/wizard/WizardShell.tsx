@@ -46,7 +46,7 @@ export function WizardShell() {
   return (
     <div className="flex h-screen bg-background overflow-hidden">
       {/* Sidebar - hidden on mobile */}
-      <div className="hidden md:block">
+      <div className="hidden md:block relative z-10">
         <WizardSidebar onGeneratePrompt={() => setShowPrompt(true)} />
       </div>
 
@@ -54,7 +54,7 @@ export function WizardShell() {
       <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
         {/* Left: Wizard controls */}
         <div
-          className={`w-full md:w-[420px] lg:w-[480px] flex flex-col border-r border-border bg-background ${
+          className={`w-full md:w-[420px] lg:w-[480px] flex flex-col border-r border-border bg-background relative z-10 ${
             mobileView === "preview" ? "hidden md:flex" : "flex"
           }`}
         >
@@ -131,7 +131,7 @@ export function WizardShell() {
 
         {/* Right: Live preview */}
         <div
-          className={`flex-1 bg-muted/30 overflow-hidden flex flex-col ${
+          className={`flex-1 bg-muted/30 overflow-hidden isolate flex flex-col ${
             mobileView === "controls" ? "hidden md:flex" : "flex"
           }`}
         >
