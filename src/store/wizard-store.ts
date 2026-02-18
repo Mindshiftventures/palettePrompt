@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import type { WizardStore, PageType, LayoutId, DensityLevel, RadiusToken, ShadowToken, WizardState } from "@/types";
+import type { WizardStore, PageType, PreviewViewport, LayoutId, DensityLevel, RadiusToken, ShadowToken, WizardState } from "@/types";
 
 const initialState: WizardState = {
   currentStep: 0,
   pageType: "landing",
+  previewViewport: "desktop",
   styleId: "neo-brutalist",
   colorThemeId: "nb-acid",
   customBrandColor: null,
@@ -25,6 +26,7 @@ export const useWizardStore = create<WizardStore>((set) => ({
 
   setStep: (step: number) => set({ currentStep: step }),
   setPageType: (type: PageType) => set({ pageType: type }),
+  setPreviewViewport: (viewport: PreviewViewport) => set({ previewViewport: viewport }),
   setStyleId: (id: string) => set({ styleId: id }),
   setColorThemeId: (id: string) => set({ colorThemeId: id }),
   setCustomBrandColor: (color: string | null) => set({ customBrandColor: color }),

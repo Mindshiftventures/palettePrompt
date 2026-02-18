@@ -1,7 +1,7 @@
 "use client";
 
 import { useWizardStore } from "@/store/wizard-store";
-import { styles, getStyleById } from "@/data/styles";
+import { getStyleById } from "@/data/styles";
 import { getColorTheme, generatePaletteFromBrand } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
 import { RADIUS_MAP, SHADOW_MAP } from "@/types";
@@ -84,42 +84,60 @@ export function PreviewPanel() {
         ? BlogPreview
         : LandingPreview;
 
-  return (
-    <div className="h-full overflow-auto" ref={containerRef}>
-      <div className="min-h-full" style={cssVars}>
+  const isMobile = state.previewViewport === "mobile";
+
+  const previewContent = (
+    <div className="min-h-full" style={cssVars}>
+      <div
+        className="relative min-h-screen"
+        style={{
+          backgroundColor: colors.background,
+          color: colors.foreground,
+          fontFamily: fontPairing
+            ? `'${fontPairing.body.family}', sans-serif`
+            : "sans-serif",
+        }}
+      >
+        {/* Grain overlay */}
+        {state.effects.grain && (
+          <div
+            className="pointer-events-none absolute inset-0 z-50 opacity-[0.04]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
+        )}
+
+        {/* Gradient overlay */}
+        {state.effects.gradient && (
+          <div
+            className="pointer-events-none absolute inset-0 z-40 opacity-30"
+            style={{
+              background: `radial-gradient(ellipse at 20% 50%, ${colors.primary}40 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, ${colors.accent}30 0%, transparent 50%)`,
+            }}
+          />
+        )}
+
+        <PreviewTemplate />
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <div className="h-full overflow-auto flex items-start justify-center bg-muted/50 p-6" ref={containerRef}>
         <div
-          className="relative min-h-screen"
-          style={{
-            backgroundColor: colors.background,
-            color: colors.foreground,
-            fontFamily: fontPairing
-              ? `'${fontPairing.body.family}', sans-serif`
-              : "sans-serif",
-          }}
+          className="relative w-[375px] min-h-[667px] rounded-[2rem] border-[8px] border-foreground/20 overflow-hidden shadow-2xl bg-background"
         >
-          {/* Grain overlay */}
-          {state.effects.grain && (
-            <div
-              className="pointer-events-none absolute inset-0 z-50 opacity-[0.04]"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-              }}
-            />
-          )}
-
-          {/* Gradient overlay */}
-          {state.effects.gradient && (
-            <div
-              className="pointer-events-none absolute inset-0 z-40 opacity-30"
-              style={{
-                background: `radial-gradient(ellipse at 20% 50%, ${colors.primary}40 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, ${colors.accent}30 0%, transparent 50%)`,
-              }}
-            />
-          )}
-
-          <PreviewTemplate />
+          {previewContent}
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="h-full overflow-auto" ref={containerRef}>
+      {previewContent}
     </div>
   );
 }
