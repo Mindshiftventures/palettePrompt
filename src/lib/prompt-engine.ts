@@ -165,16 +165,13 @@ function buildToolConstraints(tool: ToolTarget): string {
   return constraints[tool];
 }
 
-function buildContentGuardrails(): string {
-  return `**Content Guidelines:**
-- Use realistic, high-quality copy — no Lorem Ipsum or placeholder text
-- Write compelling headlines that match the brand tone
-- Include realistic navigation labels, button text, and descriptions
-- All images should be represented as placeholder areas with appropriate aspect ratios`;
+function buildUserPlaceholder(): string {
+  return `[REPLACE THIS: Describe what you want to build — e.g., "A SaaS landing page for a project management tool with pricing, features, and testimonials"]`;
 }
 
 export function generatePrompt(state: WizardState, tool: ToolTarget): string {
   const sections = [
+    buildUserPlaceholder(),
     buildRoleSection(tool),
     buildContextSection(state),
     buildStyleSection(state),
@@ -184,7 +181,6 @@ export function generatePrompt(state: WizardState, tool: ToolTarget): string {
     buildSpacingSection(state),
     buildEffectsSection(state),
     buildToolConstraints(tool),
-    buildContentGuardrails(),
   ];
 
   return sections.filter(Boolean).join("\n\n");
