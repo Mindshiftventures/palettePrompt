@@ -2,7 +2,7 @@
 
 import { useWizardStore } from "@/store/wizard-store";
 import { getStyleById } from "@/data/styles";
-import { getColorTheme, generatePaletteFromBrand } from "@/data/colors";
+import { getColorTheme, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
 import { RADIUS_MAP, SHADOW_MAP } from "@/types";
 import { LandingPreview } from "./templates/LandingPreview";
@@ -15,8 +15,9 @@ export function PreviewPanel() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const style = getStyleById(state.styleId);
+  const styleIsDark = style ? isColorDark(style.tokens.bgBase) : false;
   const colorTheme = state.customBrandColor
-    ? generatePaletteFromBrand(state.customBrandColor, style?.tokens.bgBase === "#000000" || style?.tokens.bgBase === "#0a0a0a" || style?.tokens.bgBase === "#0d1117" || style?.tokens.bgBase === "#0f0f23" || style?.tokens.bgBase === "#1a1a2e" || style?.tokens.bgBase === "#0c0c0c")
+    ? generatePaletteFromBrand(state.customBrandColor, styleIsDark)
     : getColorTheme(state.colorThemeId);
   const fontPairing = getFontPairing(state.fontPairingId);
 

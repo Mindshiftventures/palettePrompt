@@ -2,14 +2,17 @@
 
 import { useWizardStore } from "@/store/wizard-store";
 import { RADIUS_MAP, SHADOW_MAP, DENSITY_MAP } from "@/types";
-import { getColorTheme, generatePaletteFromBrand } from "@/data/colors";
+import { getColorTheme, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
+import { getStyleById } from "@/data/styles";
 import { Star, ShoppingCart, Heart, Search, SlidersHorizontal } from "lucide-react";
 
 function usePreviewStyles() {
   const state = useWizardStore();
+  const style = getStyleById(state.styleId);
+  const styleIsDark = style ? isColorDark(style.tokens.bgBase) : false;
   const colorTheme = state.customBrandColor
-    ? generatePaletteFromBrand(state.customBrandColor, false)
+    ? generatePaletteFromBrand(state.customBrandColor, styleIsDark)
     : getColorTheme(state.colorThemeId);
   const fontPairing = getFontPairing(state.fontPairingId);
 

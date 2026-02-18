@@ -1,6 +1,6 @@
 import type { WizardState, ToolTarget } from "@/types";
 import { getStyleById } from "@/data/styles";
-import { getColorTheme, generatePaletteFromBrand } from "@/data/colors";
+import { getColorTheme, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
 import { getLayout } from "@/data/layouts";
 import { RADIUS_MAP, SHADOW_MAP, DENSITY_MAP } from "@/types";
@@ -35,8 +35,10 @@ function buildStyleSection(state: WizardState): string {
 }
 
 function buildColorSection(state: WizardState): string {
+  const style = getStyleById(state.styleId);
+  const styleIsDark = style ? isColorDark(style.tokens.bgBase) : false;
   const colors = state.customBrandColor
-    ? generatePaletteFromBrand(state.customBrandColor, false)
+    ? generatePaletteFromBrand(state.customBrandColor, styleIsDark)
     : getColorTheme(state.colorThemeId);
 
   if (!colors) return "";

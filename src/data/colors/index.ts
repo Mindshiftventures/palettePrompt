@@ -1,2 +1,2 @@
 export { colorThemes, getColorTheme, getThemesForStyle } from "./palettes";
-export { generatePaletteFromBrand } from "./generator";
+export { generatePaletteFromBrand, isColorDark, relativeLuminance } from "./generator";

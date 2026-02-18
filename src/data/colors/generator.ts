@@ -114,6 +114,41 @@ function shiftHue(h: number, degrees: number): number {
   return ((h + degrees) % 360 + 360) % 360;
 }
 
+// ─── WCAG Contrast Helpers ────────────────────────────────────────
+
+/**
+ * Calculate the relative luminance of a hex color per WCAG 2.1.
+ */
+export function relativeLuminance(hex: string): number {
+  const cleaned = hex.replace(/^#/, "");
+  const r = parseInt(cleaned.slice(0, 2), 16) / 255;
+  const g = parseInt(cleaned.slice(2, 4), 16) / 255;
+  const b = parseInt(cleaned.slice(4, 6), 16) / 255;
+
+  const toLinear = (c: number) =>
+    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+
+  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
+/**
+ * Returns true if the given hex color is perceptually dark (luminance < 0.2).
+ */
+export function isColorDark(hex: string): boolean {
+  return relativeLuminance(hex) < 0.2;
+}
+
+/**
+ * Calculate the WCAG contrast ratio between two hex colors.
+ */
+function contrastRatio(hex1: string, hex2: string): number {
+  const l1 = relativeLuminance(hex1);
+  const l2 = relativeLuminance(hex2);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 // ─── Main Generator ────────────────────────────────────────────────
 
 /**
@@ -175,14 +210,32 @@ export function generatePaletteFromBrand(
     ? { h: brand.h, s: clamp(brand.s * 0.12, 3, 12), l: 20 }
     : { h: brand.h, s: clamp(brand.s * 0.12, 3, 12), l: 85 };
 
+  const bgHex = hslToHex(background);
+  let primaryHex = hslToHex(primary);
+
+  // Ensure primary has at least WCAG AA contrast (4.5:1) against background
+  const ratio = contrastRatio(primaryHex, bgHex);
+  if (ratio < 4.5) {
+    // Adjust primary lightness to meet contrast requirement
+    const adjustedPrimary = { ...primary };
+    if (isDark) {
+      // Lighten primary for dark backgrounds
+      adjustedPrimary.l = clamp(adjustedPrimary.l + 15, 50, 80);
+    } else {
+      // Darken primary for light backgrounds
+      adjustedPrimary.l = clamp(adjustedPrimary.l - 15, 15, 45);
+    }
+    primaryHex = hslToHex(adjustedPrimary);
+  }
+
   return {
     id: "custom-brand",
     name: "Custom Brand",
     styleIds: ["all"],
     colors: {
-      background: hslToHex(background),
+      background: bgHex,
       foreground: hslToHex(foreground),
-      primary: hslToHex(primary),
+      primary: primaryHex,
       secondary: hslToHex(secondary),
       accent: hslToHex(accent),
       muted: hslToHex(muted),
