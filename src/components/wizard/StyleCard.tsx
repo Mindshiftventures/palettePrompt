@@ -3,6 +3,7 @@
 import type { StyleDefinition } from "@/types";
 import { getColorTheme } from "@/data/colors";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 interface StyleCardProps {
   style: StyleDefinition;
@@ -39,10 +40,8 @@ export function StyleCard({ style, isSelected, onClick }: StyleCardProps) {
     >
       {/* Selected indicator */}
       {isSelected && (
-        <div className="absolute top-1.5 right-1.5 z-10 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-          <svg className="w-3 h-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
+        <div className="absolute top-2 right-2 z-10 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+          <Check className="h-3 w-3 text-primary-foreground" strokeWidth={3} />
         </div>
       )}
 
