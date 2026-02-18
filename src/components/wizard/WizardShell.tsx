@@ -37,7 +37,7 @@ export function WizardShell() {
     <div className="flex h-screen bg-background overflow-hidden">
       {/* Sidebar - hidden on mobile */}
       <div className="hidden md:block">
-        <WizardSidebar />
+        <WizardSidebar onGeneratePrompt={() => setShowPrompt(true)} />
       </div>
 
       {/* Main content area */}
@@ -94,12 +94,19 @@ export function WizardShell() {
                 Preview
               </Button>
 
-              {isLastStep ? (
-                <Button size="sm" onClick={() => setShowPrompt(true)}>
+              {/* Mobile-only generate prompt button */}
+              {isLastStep && (
+                <Button
+                  size="sm"
+                  className="md:hidden"
+                  onClick={() => setShowPrompt(true)}
+                >
                   <Code2 className="h-4 w-4 mr-1" />
-                  Generate Prompt
+                  Generate
                 </Button>
-              ) : (
+              )}
+
+              {!isLastStep && (
                 <Button
                   size="sm"
                   onClick={() => setStep(currentStep + 1)}

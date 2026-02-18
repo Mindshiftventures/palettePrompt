@@ -9,8 +9,10 @@ import {
   Type,
   LayoutGrid,
   Sparkles,
+  Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const iconMap = {
   Layout,
@@ -21,7 +23,11 @@ const iconMap = {
   Sparkles,
 } as const;
 
-export function WizardSidebar() {
+interface WizardSidebarProps {
+  onGeneratePrompt: () => void;
+}
+
+export function WizardSidebar({ onGeneratePrompt }: WizardSidebarProps) {
   const currentStep = useWizardStore((s) => s.currentStep);
   const setStep = useWizardStore((s) => s.setStep);
 
@@ -37,7 +43,7 @@ export function WizardSidebar() {
         {WIZARD_STEPS.map((step) => {
           const Icon = iconMap[step.icon as keyof typeof iconMap];
           const isActive = currentStep === step.id;
-          const isCompleted = currentStep > step.id;
+          const isPast = currentStep > step.id;
 
           return (
             <button
@@ -47,25 +53,27 @@ export function WizardSidebar() {
                 "flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
                 isActive
                   ? "bg-primary text-primary-foreground"
-                  : isCompleted
+                  : isPast
                     ? "text-foreground hover:bg-muted"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
               <span>{step.label}</span>
-              {isCompleted && (
-                <span className="ml-auto text-xs opacity-60">✓</span>
-              )}
             </button>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-border">
-        <p className="text-xs text-muted-foreground">
-          Step {currentStep + 1} of {WIZARD_STEPS.length}
-        </p>
+      <div className="p-3 border-t border-border">
+        <Button
+          className="w-full"
+          size="sm"
+          onClick={onGeneratePrompt}
+        >
+          <Code2 className="h-4 w-4 mr-1.5" />
+          Generate Prompt
+        </Button>
       </div>
     </div>
   );
