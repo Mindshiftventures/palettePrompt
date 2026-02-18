@@ -87,7 +87,7 @@ export function PreviewPanel() {
   const isMobile = state.previewViewport === "mobile";
 
   const previewContent = (
-    <div className="min-h-full" style={cssVars}>
+    <div className="min-h-full overflow-hidden" style={cssVars}>
       <div
         className="relative min-h-screen"
         style={{
@@ -125,7 +125,7 @@ export function PreviewPanel() {
 
   if (isMobile) {
     return (
-      <div className="h-full overflow-auto flex items-start justify-center bg-muted/50 p-6" ref={containerRef}>
+      <div className="h-full overflow-auto isolate flex items-start justify-center bg-muted/50 p-6" ref={containerRef}>
         <div
           className="relative w-[375px] min-h-[667px] rounded-[2rem] border-[8px] border-foreground/20 overflow-hidden shadow-2xl bg-background"
         >
@@ -136,7 +136,7 @@ export function PreviewPanel() {
   }
 
   return (
-    <div className="h-full overflow-auto" ref={containerRef}>
+    <div className="h-full overflow-auto isolate" ref={containerRef}>
       {previewContent}
     </div>
   );
