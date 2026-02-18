@@ -1,7 +1,7 @@
 "use client";
 
 import { useWizardStore } from "@/store/wizard-store";
-import { getThemesForStyle, colorThemes, generatePaletteFromBrand } from "@/data/colors";
+import { getThemesForStyle, colorThemes, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getStyleById } from "@/data/styles";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
@@ -50,6 +50,7 @@ export function ColorStep() {
   const [brandInput, setBrandInput] = useState(customBrandColor || "#6366f1");
 
   const style = getStyleById(styleId);
+  const styleIsDark = style ? isColorDark(style.tokens.bgBase) : false;
   const recommended = useMemo(() => getThemesForStyle(styleId), [styleId]);
   const recommendedIds = useMemo(() => new Set(recommended.map((t) => t.id)), [recommended]);
   const otherThemes = useMemo(
@@ -148,7 +149,7 @@ export function ColorStep() {
 
         {/* Preview generated palette */}
         {customBrandColor && (() => {
-          const generated = generatePaletteFromBrand(customBrandColor, false);
+          const generated = generatePaletteFromBrand(customBrandColor, styleIsDark);
           return (
             <div className="flex h-8 rounded-lg overflow-hidden border border-border mt-2">
               <div className="flex-1" style={{ backgroundColor: generated.colors.background }} />

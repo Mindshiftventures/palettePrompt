@@ -1,7 +1,7 @@
 "use client";
 
 import type { StyleDefinition } from "@/types";
-import { getColorTheme } from "@/data/colors";
+import { getColorTheme, isColorDark } from "@/data/colors";
 import { cn } from "@/lib/utils";
 
 interface StyleCardProps {
@@ -19,13 +19,7 @@ export function StyleCard({ style, isSelected, onClick }: StyleCardProps) {
   const primary = colors?.primary ?? tokens.textPrimary;
   const accent = colors?.accent ?? tokens.textSecondary;
   const muted = colors?.muted ?? tokens.bgBase;
-  const isDark =
-    tokens.bgBase === "#000000" ||
-    tokens.bgBase === "#0d1117" ||
-    tokens.bgBase === "#0a0a0a" ||
-    tokens.bgBase === "#0f0f23" ||
-    tokens.bgBase === "#1a1a2e" ||
-    tokens.bgBase === "#0c0c0c";
+  const isDark = isColorDark(tokens.bgBase);
 
   return (
     <button
@@ -109,7 +103,7 @@ export function StyleCard({ style, isSelected, onClick }: StyleCardProps) {
                 border: `${tokens.borderWidth} solid ${tokens.borderColor}`,
                 borderRadius: tokens.radiusValue,
                 boxShadow: tokens.shadowValue,
-                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)",
+                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
               }}
             >
               <div
