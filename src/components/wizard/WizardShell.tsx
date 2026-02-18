@@ -44,17 +44,17 @@ export function WizardShell() {
   const isFirstStep = currentStep === 0;
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
+    <div className="flex h-dvh bg-background overflow-hidden">
       {/* Sidebar - hidden on mobile */}
       <div className="hidden md:block relative z-10">
         <WizardSidebar onGeneratePrompt={() => setShowPrompt(true)} />
       </div>
 
       {/* Main content area */}
-      <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
+      <div className="flex flex-1 flex-col md:flex-row min-h-0 overflow-hidden">
         {/* Left: Wizard controls */}
         <div
-          className={`w-full md:w-[420px] lg:w-[480px] flex flex-col border-r border-border bg-background relative z-10 ${
+          className={`w-full md:w-[420px] lg:w-[480px] flex flex-col min-h-0 border-r border-border bg-background relative z-10 ${
             mobileView === "preview" ? "hidden md:flex" : "flex"
           }`}
         >
@@ -81,7 +81,7 @@ export function WizardShell() {
           </div>
 
           {/* Navigation buttons */}
-          <div className="flex items-center justify-between p-4 border-t border-border">
+          <div className="flex items-center justify-between p-4 border-t border-border shrink-0">
             <Button
               variant="outline"
               size="sm"
