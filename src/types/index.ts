@@ -98,10 +98,10 @@ export interface WizardState {
   borderRadius: RadiusToken;
   shadowStyle: ShadowToken;
   effects: {
-    grain: boolean;
-    blur: boolean;
-    glow: boolean;
-    gradient: boolean;
+    grain: number;
+    blur: number;
+    glow: number;
+    gradient: number;
   };
 }
 
@@ -117,7 +117,7 @@ export interface WizardActions {
   setDensity: (density: DensityLevel) => void;
   setBorderRadius: (radius: RadiusToken) => void;
   setShadowStyle: (shadow: ShadowToken) => void;
-  setEffect: (effect: keyof WizardState["effects"], value: boolean) => void;
+  setEffect: (effect: keyof WizardState["effects"], value: number) => void;
   reset: () => void;
 }
 

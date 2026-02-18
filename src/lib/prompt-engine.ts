@@ -100,25 +100,39 @@ function buildSpacingSection(state: WizardState): string {
 - Apply consistent spacing throughout — section padding, card gaps, and element margins should all reflect the ${state.density} density level.`;
 }
 
+function intensityWord(value: number): string {
+  if (value <= 30) return "subtle";
+  if (value <= 70) return "moderate";
+  return "intense";
+}
+
 function buildEffectsSection(state: WizardState): string {
   const effects: string[] = [];
 
-  if (state.effects.grain)
+  if (state.effects.grain) {
+    const w = intensityWord(state.effects.grain);
     effects.push(
-      "Apply a subtle grain/noise texture overlay across the page for a tactile, analog feel."
+      `Apply a ${w} grain/noise texture overlay across the page for a tactile, analog feel.`
     );
-  if (state.effects.blur)
+  }
+  if (state.effects.blur) {
+    const w = intensityWord(state.effects.blur);
     effects.push(
-      "Use backdrop-blur and frosted glass effects on overlapping elements (cards, modals, navbars) for depth."
+      `Use ${w} backdrop-blur and frosted glass effects on overlapping elements (cards, modals, navbars) for depth.`
     );
-  if (state.effects.glow)
+  }
+  if (state.effects.glow) {
+    const w = intensityWord(state.effects.glow);
     effects.push(
-      "Add glow effects to primary buttons and interactive elements using colored box-shadows (e.g., `box-shadow: 0 0 20px primaryColor40`)."
+      `Add ${w} glow effects to primary buttons and interactive elements using colored box-shadows (e.g., \`box-shadow: 0 0 20px primaryColor40\`).`
     );
-  if (state.effects.gradient)
+  }
+  if (state.effects.gradient) {
+    const w = intensityWord(state.effects.gradient);
     effects.push(
-      "Apply gradient overlays and mesh gradient backgrounds for visual richness. Use radial gradients with the primary and accent colors."
+      `Apply ${w} gradient overlays and mesh gradient backgrounds for visual richness. Use radial gradients with the primary and accent colors.`
     );
+  }
 
   if (effects.length === 0) return "";
 

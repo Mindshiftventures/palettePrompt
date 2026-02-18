@@ -4,7 +4,7 @@ import { useWizardStore } from "@/store/wizard-store";
 import type { DensityLevel, RadiusToken, ShadowToken } from "@/types";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
 import { Sparkles, Droplets, Sun, Blend } from "lucide-react";
 
 const densityOptions: { id: DensityLevel; label: string; description: string }[] = [
@@ -29,12 +29,19 @@ const shadowOptions: { id: ShadowToken; label: string }[] = [
   { id: "hard", label: "Hard" },
 ];
 
-const effectToggles = [
-  { key: "grain" as const, label: "Grain Texture", icon: Sparkles, description: "Adds a subtle film grain overlay" },
+const effectSliders = [
+  { key: "grain" as const, label: "Grain Texture", icon: Sparkles, description: "Film grain overlay" },
   { key: "blur" as const, label: "Blur Effects", icon: Droplets, description: "Frosted glass and backdrop blur" },
   { key: "glow" as const, label: "Glow Effects", icon: Sun, description: "Neon glow and light bloom" },
   { key: "gradient" as const, label: "Gradient Overlays", icon: Blend, description: "Smooth color transitions" },
 ];
+
+function intensityLabel(value: number): string {
+  if (value === 0) return "Off";
+  if (value <= 30) return "Subtle";
+  if (value <= 70) return "Medium";
+  return "Intense";
+}
 
 export function EffectsStep() {
   const density = useWizardStore((s) => s.density);
@@ -129,27 +136,38 @@ export function EffectsStep() {
         </div>
       </div>
 
-      {/* Effect Toggles */}
+      {/* Effect Intensity Sliders */}
       <div>
         <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 block">
           Visual Effects
         </Label>
-        <div className="space-y-3">
-          {effectToggles.map(({ key, label, icon: Icon, description }) => (
+        <div className="space-y-4">
+          {effectSliders
+            .filter(({ key }) => key !== "glow" || shadowStyle !== "none")
+            .map(({ key, label, icon: Icon, description }) => (
             <div
               key={key}
-              className="flex items-center justify-between p-3 rounded-lg border border-border"
+              className="p-3 rounded-lg border border-border space-y-2"
             >
-              <div className="flex items-center gap-3">
-                <Icon className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">{label}</p>
-                  <p className="text-xs text-muted-foreground">{description}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Icon className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">{label}</p>
+                    <p className="text-xs text-muted-foreground">{description}</p>
+                  </div>
                 </div>
+                <span className="text-xs font-medium text-muted-foreground min-w-[50px] text-right">
+                  {intensityLabel(effects[key])}
+                </span>
               </div>
-              <Switch
-                checked={effects[key]}
-                onCheckedChange={(checked) => setEffect(key, checked)}
+              <Slider
+                value={[effects[key]]}
+                onValueChange={([v]) => setEffect(key, v)}
+                min={0}
+                max={100}
+                step={5}
+                className="w-full"
               />
             </div>
           ))}

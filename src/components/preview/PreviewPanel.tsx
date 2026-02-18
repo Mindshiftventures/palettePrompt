@@ -98,24 +98,53 @@ export function PreviewPanel() {
             : "sans-serif",
         }}
       >
-        {/* Grain overlay */}
-        {state.effects.grain && (
+        {/* Grain overlay — opacity scales with intensity */}
+        {state.effects.grain > 0 && (
           <div
-            className="pointer-events-none absolute inset-0 z-50 opacity-[0.04]"
+            className="pointer-events-none absolute inset-0 z-50"
             style={{
+              opacity: 0.02 + (state.effects.grain / 100) * 0.06,
               backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             }}
           />
         )}
 
-        {/* Gradient overlay */}
-        {state.effects.gradient && (
+        {/* Gradient overlay — opacity scales with intensity */}
+        {state.effects.gradient > 0 && (
           <div
-            className="pointer-events-none absolute inset-0 z-40 opacity-30"
+            className="pointer-events-none absolute inset-0 z-40"
             style={{
+              opacity: 0.1 + (state.effects.gradient / 100) * 0.4,
               background: `radial-gradient(ellipse at 20% 50%, ${colors.primary}40 0%, transparent 50%), radial-gradient(ellipse at 80% 50%, ${colors.accent}30 0%, transparent 50%)`,
             }}
           />
+        )}
+
+        {/* Blur overlay — backdrop-blur on a semi-transparent layer */}
+        {state.effects.blur > 0 && (
+          <div
+            className="pointer-events-none absolute inset-0 z-30"
+            style={{
+              backdropFilter: `blur(${(state.effects.blur / 100) * 4}px)`,
+              backgroundColor: `${colors.background}${Math.round((state.effects.blur / 100) * 15).toString(16).padStart(2, "0")}`,
+            }}
+          />
+        )}
+
+        {/* Glow effect — colored ambient glow behind content */}
+        {state.effects.glow > 0 && state.shadowStyle !== "none" && (
+          <div
+            className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
+          >
+            <div
+              className="absolute top-1/4 left-1/4 w-1/2 h-1/2 rounded-full"
+              style={{
+                opacity: 0.1 + (state.effects.glow / 100) * 0.3,
+                background: `radial-gradient(circle, ${colors.primary}60 0%, transparent 70%)`,
+                filter: `blur(${40 + (state.effects.glow / 100) * 60}px)`,
+              }}
+            />
+          </div>
         )}
 
         <PreviewTemplate />
