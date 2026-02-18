@@ -2,7 +2,6 @@
 
 import { useWizardStore } from "@/store/wizard-store";
 import { WizardSidebar } from "./WizardSidebar";
-import { PageTypeStep } from "./steps/PageTypeStep";
 import { StyleStep } from "./steps/StyleStep";
 import { ColorStep } from "./steps/ColorStep";
 import { TypographyStep } from "./steps/TypographyStep";
@@ -12,12 +11,11 @@ import { PreviewPanel } from "@/components/preview/PreviewPanel";
 import { PromptOutput } from "@/components/output/PromptOutput";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone } from "lucide-react";
+import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone, Globe, ShoppingBag, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { PreviewViewport } from "@/types";
+import type { PreviewViewport, PageType } from "@/types";
 
 const steps = [
-  PageTypeStep,
   StyleStep,
   ColorStep,
   TypographyStep,
@@ -25,11 +23,19 @@ const steps = [
   EffectsStep,
 ];
 
+const pageTypes: { id: PageType; label: string; icon: typeof Globe }[] = [
+  { id: "landing", label: "Landing", icon: Globe },
+  { id: "ecommerce", label: "E-commerce", icon: ShoppingBag },
+  { id: "blog", label: "Blog", icon: BookOpen },
+];
+
 export function WizardShell() {
   const currentStep = useWizardStore((s) => s.currentStep);
   const setStep = useWizardStore((s) => s.setStep);
   const previewViewport = useWizardStore((s) => s.previewViewport);
   const setPreviewViewport = useWizardStore((s) => s.setPreviewViewport);
+  const pageType = useWizardStore((s) => s.pageType);
+  const setPageType = useWizardStore((s) => s.setPageType);
   const [showPrompt, setShowPrompt] = useState(false);
   const [mobileView, setMobileView] = useState<"controls" | "preview">("controls");
 
@@ -141,9 +147,29 @@ export function WizardShell() {
             </Button>
           </div>
 
-          {/* Preview toolbar with viewport toggle */}
-          <div className="hidden md:flex items-center justify-end p-2 border-b border-border bg-background/80 backdrop-blur-sm shrink-0">
-            <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+          {/* Preview toolbar: page type switcher + viewport toggle */}
+          <div className="flex items-center justify-between p-2 border-b border-border bg-background/80 backdrop-blur-sm shrink-0">
+            {/* Page type switcher */}
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+              {pageTypes.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => setPageType(id)}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                    pageType === id
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Viewport toggle */}
+            <div className="hidden md:flex items-center gap-1 bg-muted rounded-lg p-0.5">
               {([
                 { id: "desktop" as PreviewViewport, icon: Monitor, label: "Desktop" },
                 { id: "mobile" as PreviewViewport, icon: Smartphone, label: "Mobile" },

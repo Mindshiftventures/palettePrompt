@@ -146,10 +146,9 @@ export const SHADOW_MAP: Record<ShadowToken, string> = {
 };
 
 export const WIZARD_STEPS = [
-  { id: 0, label: "Page Type", icon: "Layout" },
-  { id: 1, label: "Style", icon: "Palette" },
-  { id: 2, label: "Colors", icon: "Paintbrush" },
-  { id: 3, label: "Typography", icon: "Type" },
-  { id: 4, label: "Layout", icon: "LayoutGrid" },
-  { id: 5, label: "Effects", icon: "Sparkles" },
+  { id: 0, label: "Style", icon: "Palette" },
+  { id: 1, label: "Colors", icon: "Paintbrush" },
+  { id: 2, label: "Typography", icon: "Type" },
+  { id: 3, label: "Layout", icon: "LayoutGrid" },
+  { id: 4, label: "Effects", icon: "Sparkles" },
 ] as const;
