@@ -30,7 +30,7 @@ export function StyleStep() {
 
     // Reset all effects, then enable the style's defaults at medium intensity
     setEffect("grain", style.defaults.effects.includes("grain") ? 60 : 0);
-    setEffect("blur", style.defaults.effects.includes("blur") ? 60 : 0);
+    setEffect("blur", 0);
     setEffect("glow", style.defaults.effects.includes("glow") ? 60 : 0);
     setEffect("gradient", style.defaults.effects.includes("gradient") ? 60 : 0);
   };

@@ -7,6 +7,7 @@ import {
   Wand2,
   Eye,
   Zap,
+  ChevronRight,
 } from "lucide-react";
 import { StyleShowcase } from "@/components/home/StyleShowcase";
 import { toolLogos } from "@/components/shared/ToolLogos";
@@ -20,24 +21,36 @@ const steps = [
     title: "Pick your style",
     description:
       "Choose from 20 curated visual styles — Neo-Brutalist, Glassmorphism, Swiss, and more.",
+    color: "from-violet-500/20 to-violet-500/5",
+    iconBg: "bg-violet-500/15",
+    iconColor: "text-violet-600",
   },
   {
     icon: Wand2,
     title: "Customize everything",
     description:
       "Fine-tune colors, typography, layout, spacing, and effects to match your vision.",
+    color: "from-blue-500/20 to-blue-500/5",
+    iconBg: "bg-blue-500/15",
+    iconColor: "text-blue-600",
   },
   {
     icon: Eye,
     title: "See it live",
     description:
       "Watch your choices come alive in a real-time preview across landing, e-commerce, and blog templates.",
+    color: "from-emerald-500/20 to-emerald-500/5",
+    iconBg: "bg-emerald-500/15",
+    iconColor: "text-emerald-600",
   },
   {
     icon: Copy,
     title: "Copy your prompt",
     description:
       "Get a tool-specific prompt optimized for your chosen AI coding assistant.",
+    color: "from-amber-500/20 to-amber-500/5",
+    iconBg: "bg-amber-500/15",
+    iconColor: "text-amber-600",
   },
 ];
 
@@ -102,58 +115,75 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6 bg-gradient-to-b from-muted/30 to-muted/10">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
-            How it works
-          </h2>
-          <p className="text-center text-muted-foreground mb-16">
-            Four steps from vision to prompt. No design skills needed.
-          </p>
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/50 via-muted/20 to-transparent" />
+        <div className="max-w-5xl mx-auto relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-semibold bg-primary/10 text-primary rounded-full">
+              4 simple steps
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4">
+              How it works
+            </h2>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              From vision to prompt in under a minute. No design skills needed.
+            </p>
+          </div>
 
-          {/* Desktop: horizontal 4-step flow */}
-          <div className="hidden md:flex items-start gap-0">
+          {/* Desktop: horizontal flow with cards */}
+          <div className="hidden md:grid md:grid-cols-4 gap-4">
             {steps.map((step, i) => (
-              <div key={step.title} className="flex-1 flex flex-col items-center text-center relative">
-                {/* Connector line */}
+              <div key={step.title} className="relative group">
+                {/* Connector arrow */}
                 {i < steps.length - 1 && (
-                  <div className="absolute top-8 left-[calc(50%+32px)] right-[calc(-50%+32px)] h-px bg-border" />
+                  <div className="absolute top-12 -right-2 z-10">
+                    <ChevronRight className="h-4 w-4 text-muted-foreground/40" />
+                  </div>
                 )}
 
-                {/* Step number */}
-                <div className="relative mb-4">
-                  <span className="text-5xl font-black text-primary/10">{i + 1}</span>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10">
-                      <step.icon className="h-6 w-6 text-primary" />
+                <div className={`h-full rounded-2xl border border-border bg-gradient-to-b ${step.color} p-6 transition-all hover:shadow-lg hover:-translate-y-1`}>
+                  {/* Step number */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${step.iconBg}`}>
+                      <step.icon className={`h-6 w-6 ${step.iconColor}`} />
                     </div>
+                    <span className="text-4xl font-black text-foreground/[0.06]">
+                      {i + 1}
+                    </span>
                   </div>
-                </div>
 
-                <h3 className="font-bold text-base mb-2 mt-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground px-4 leading-relaxed">
-                  {step.description}
-                </p>
+                  <h3 className="font-bold text-base mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Mobile: stacked */}
-          <div className="md:hidden space-y-6">
+          {/* Mobile: vertical timeline */}
+          <div className="md:hidden">
             {steps.map((step, i) => (
-              <div
-                key={step.title}
-                className="flex gap-4 p-5 bg-background rounded-xl border border-border"
-              >
-                <div className="flex flex-col items-center shrink-0">
-                  <span className="text-3xl font-black text-primary/15">{i + 1}</span>
-                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 -mt-3">
-                    <step.icon className="h-5 w-5 text-primary" />
+              <div key={step.title} className="flex gap-4 mb-1 last:mb-0">
+                {/* Timeline */}
+                <div className="flex flex-col items-center">
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${step.iconBg} shrink-0 z-10`}>
+                    <step.icon className={`h-5 w-5 ${step.iconColor}`} />
                   </div>
+                  {i < steps.length - 1 && (
+                    <div className="w-px flex-1 bg-border my-1" />
+                  )}
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-1">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground">
+
+                {/* Content */}
+                <div className="pb-8">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                      Step {i + 1}
+                    </span>
+                  </div>
+                  <h3 className="font-bold mb-1">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {step.description}
                   </p>
                 </div>

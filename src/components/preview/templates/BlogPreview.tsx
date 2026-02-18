@@ -5,7 +5,7 @@ import { RADIUS_MAP, SHADOW_MAP, DENSITY_MAP } from "@/types";
 import { getColorTheme, generatePaletteFromBrand, isColorDark } from "@/data/colors";
 import { getFontPairing } from "@/data/typography";
 import { getStyleById } from "@/data/styles";
-import { Clock, User, Tag, ArrowRight, Bookmark } from "lucide-react";
+import { Clock, User, ArrowRight, Bookmark, Menu } from "lucide-react";
 
 function usePreviewStyles() {
   const state = useWizardStore();
@@ -43,7 +43,7 @@ const posts = [
   },
   {
     title: "Understanding Color Theory for Digital Products",
-    excerpt: "A practical guide to choosing colors that communicate your brand values effectively.",
+    excerpt: "A practical guide to choosing colors that communicate your brand values.",
     author: "Maya Patel",
     date: "Feb 10, 2026",
     readTime: "5 min read",
@@ -52,7 +52,7 @@ const posts = [
   },
   {
     title: "Typography Best Practices for the Web",
-    excerpt: "Font pairing strategies, sizing scales, and line heights that make your content shine.",
+    excerpt: "Font pairing strategies and sizing scales that make your content shine.",
     author: "Chris Yang",
     date: "Feb 8, 2026",
     readTime: "6 min read",
@@ -61,7 +61,7 @@ const posts = [
   },
   {
     title: "Building Accessible UI Components",
-    excerpt: "Step-by-step guide to creating components that work for everyone, regardless of ability.",
+    excerpt: "Creating components that work for everyone, regardless of ability.",
     author: "Sam Torres",
     date: "Feb 5, 2026",
     readTime: "10 min read",
@@ -69,8 +69,6 @@ const posts = [
     featured: false,
   },
 ];
-
-const sidebarTags = ["Design", "Typography", "Color", "Engineering", "Product", "UX Research"];
 
 export function BlogPreview() {
   const { c, r, cardR, s, d, headingFont, bodyFont, glow } = usePreviewStyles();
@@ -82,23 +80,17 @@ export function BlogPreview() {
     <div style={{ fontFamily: bodyFont }}>
       {/* Nav */}
       <nav
-        className="flex items-center justify-between px-6 py-4"
+        className="flex items-center justify-between px-4 py-3"
         style={{ borderBottom: `1px solid ${c.border}` }}
       >
-        <span style={{ fontFamily: headingFont, fontWeight: 700, fontSize: 18, color: c.foreground }}>
+        <span style={{ fontFamily: headingFont, fontWeight: 700, fontSize: 14, color: c.foreground }}>
           The Design Blog
         </span>
-        <div className="flex items-center gap-3 flex-wrap">
-          {["Articles", "Tutorials", "Resources"].map((item) => (
-            <span key={item} className="text-xs" style={{ color: c.foreground, opacity: 0.7 }}>
-              {item}
-            </span>
-          ))}
-        </div>
+        <Menu className="h-4 w-4" style={{ color: c.foreground, opacity: 0.5 }} />
       </nav>
 
       {/* Featured article */}
-      <section className={`${d.section} px-6`}>
+      <section className={`${d.section} px-4`}>
         <div className="max-w-4xl mx-auto">
           <div
             className="overflow-hidden"
@@ -112,15 +104,15 @@ export function BlogPreview() {
             {/* Featured image placeholder */}
             <div className="aspect-[2/1]" style={{ backgroundColor: c.muted }}>
               <div className="w-full h-full flex items-center justify-center">
-                <span className="text-sm" style={{ color: c.foreground, opacity: 0.2 }}>
+                <span className="text-xs" style={{ color: c.foreground, opacity: 0.2 }}>
                   Featured Image
                 </span>
               </div>
             </div>
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-3">
+            <div className="p-4">
+              <div className="flex items-center gap-2 mb-2">
                 <span
-                  className="text-xs font-semibold px-2.5 py-0.5"
+                  className="text-[10px] font-semibold px-2 py-0.5"
                   style={{
                     backgroundColor: c.primary + "15",
                     color: c.primary,
@@ -129,41 +121,41 @@ export function BlogPreview() {
                 >
                   {featured.tag}
                 </span>
-                <span className="flex items-center gap-1 text-xs" style={{ color: c.foreground, opacity: 0.5 }}>
-                  <Clock className="h-3 w-3" /> {featured.readTime}
+                <span className="flex items-center gap-1 text-[10px]" style={{ color: c.foreground, opacity: 0.5 }}>
+                  <Clock className="h-2.5 w-2.5" /> {featured.readTime}
                 </span>
               </div>
               <h2
-                className="text-2xl font-bold mb-2"
+                className="text-lg font-bold mb-1"
                 style={{ fontFamily: headingFont, color: c.foreground }}
               >
                 {featured.title}
               </h2>
-              <p className="text-sm mb-4" style={{ color: c.foreground, opacity: 0.6 }}>
+              <p className="text-xs mb-3" style={{ color: c.foreground, opacity: 0.6 }}>
                 {featured.excerpt}
               </p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-7 h-7 flex items-center justify-center"
+                    className="w-6 h-6 flex items-center justify-center"
                     style={{ backgroundColor: c.muted, borderRadius: "999px" }}
                   >
-                    <User className="h-3.5 w-3.5" style={{ color: c.foreground, opacity: 0.5 }} />
+                    <User className="h-3 w-3" style={{ color: c.foreground, opacity: 0.5 }} />
                   </div>
                   <div>
-                    <p className="text-xs font-medium" style={{ color: c.foreground }}>
+                    <p className="text-[10px] font-medium" style={{ color: c.foreground }}>
                       {featured.author}
                     </p>
-                    <p className="text-[10px]" style={{ color: c.foreground, opacity: 0.4 }}>
+                    <p className="text-[8px]" style={{ color: c.foreground, opacity: 0.4 }}>
                       {featured.date}
                     </p>
                   </div>
                 </div>
                 <span
-                  className="text-xs font-semibold flex items-center gap-1"
+                  className="text-[10px] font-semibold flex items-center gap-1"
                   style={{ color: c.primary }}
                 >
-                  Read more <ArrowRight className="h-3 w-3" />
+                  Read more <ArrowRight className="h-2.5 w-2.5" />
                 </span>
               </div>
             </div>
@@ -171,139 +163,93 @@ export function BlogPreview() {
         </div>
       </section>
 
-      {/* Articles grid + Sidebar */}
-      <section className={`${d.section} px-6`} style={{ backgroundColor: c.muted + "40" }}>
-        <div className="max-w-4xl mx-auto flex gap-8">
-          {/* Articles */}
-          <div className="flex-1 space-y-4">
-            {rest.map((post) => (
-              <div
-                key={post.title}
-                className="flex gap-4 p-4"
-                style={{
-                  borderRadius: cardR,
-                  boxShadow: s,
-                  border: `1px solid ${c.border}`,
-                  backgroundColor: c.background,
-                }}
-              >
-                {/* Thumbnail */}
-                <div
-                  className="w-24 h-24 shrink-0"
-                  style={{ backgroundColor: c.muted, borderRadius: cardR }}
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className="text-[10px] font-semibold px-2 py-0.5"
-                      style={{
-                        backgroundColor: c.primary + "15",
-                        color: c.primary,
-                        borderRadius: r,
-                      }}
-                    >
-                      {post.tag}
-                    </span>
-                    <span className="text-[10px]" style={{ color: c.foreground, opacity: 0.4 }}>
-                      {post.readTime}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-semibold text-sm mb-1 truncate"
-                    style={{ fontFamily: headingFont, color: c.foreground }}
-                  >
-                    {post.title}
-                  </h3>
-                  <p className="text-xs line-clamp-2" style={{ color: c.foreground, opacity: 0.6 }}>
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-[10px] font-medium" style={{ color: c.foreground, opacity: 0.5 }}>
-                      {post.author}
-                    </span>
-                    <span className="text-[10px]" style={{ color: c.foreground, opacity: 0.3 }}>
-                      {post.date}
-                    </span>
-                  </div>
-                </div>
-                <Bookmark className="h-4 w-4 shrink-0 mt-1" style={{ color: c.foreground, opacity: 0.3 }} />
-              </div>
-            ))}
-          </div>
-
-          {/* Sidebar */}
-          <div className="w-48 shrink-0 hidden md:block space-y-6">
-            {/* Tags */}
-            <div>
-              <h3
-                className="text-xs font-bold uppercase tracking-wider mb-3"
-                style={{ color: c.foreground, opacity: 0.5 }}
-              >
-                Topics
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {sidebarTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-2.5 py-1"
-                    style={{
-                      border: `1px solid ${c.border}`,
-                      borderRadius: r,
-                      color: c.foreground,
-                      opacity: 0.7,
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Newsletter */}
+      {/* Articles list */}
+      <section className={`${d.section} px-4`} style={{ backgroundColor: c.muted + "40" }}>
+        <div className="max-w-4xl mx-auto space-y-3">
+          {rest.map((post) => (
             <div
-              className="p-4"
+              key={post.title}
+              className="flex gap-3 p-3"
               style={{
                 borderRadius: cardR,
-                backgroundColor: c.primary + "10",
-                border: `1px solid ${c.primary}30`,
+                boxShadow: s,
+                border: `1px solid ${c.border}`,
+                backgroundColor: c.background,
               }}
             >
-              <h3
-                className="text-sm font-bold mb-1"
-                style={{ fontFamily: headingFont, color: c.foreground }}
-              >
-                Newsletter
-              </h3>
-              <p className="text-xs mb-3" style={{ color: c.foreground, opacity: 0.6 }}>
-                Get weekly design insights delivered to your inbox.
-              </p>
+              {/* Thumbnail */}
               <div
-                className="w-full h-8 mb-2"
-                style={{
-                  backgroundColor: c.background,
-                  borderRadius: r,
-                  border: `1px solid ${c.border}`,
-                }}
+                className="w-16 h-16 shrink-0"
+                style={{ backgroundColor: c.muted, borderRadius: cardR }}
               />
-              <div
-                className="w-full h-8 flex items-center justify-center text-xs font-semibold"
-                style={{
-                  backgroundColor: c.primary,
-                  color: c.background,
-                  borderRadius: r,
-                  ...(glow ? { boxShadow: `0 0 12px ${c.primary}40` } : {}),
-                }}
-              >
-                Subscribe
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <span
+                    className="text-[8px] font-semibold px-1.5 py-0.5"
+                    style={{
+                      backgroundColor: c.primary + "15",
+                      color: c.primary,
+                      borderRadius: r,
+                    }}
+                  >
+                    {post.tag}
+                  </span>
+                  <span className="text-[8px]" style={{ color: c.foreground, opacity: 0.4 }}>
+                    {post.readTime}
+                  </span>
+                </div>
+                <h3
+                  className="font-semibold text-xs mb-0.5 truncate"
+                  style={{ fontFamily: headingFont, color: c.foreground }}
+                >
+                  {post.title}
+                </h3>
+                <p className="text-[10px] line-clamp-1" style={{ color: c.foreground, opacity: 0.6 }}>
+                  {post.excerpt}
+                </p>
               </div>
+              <Bookmark className="h-3 w-3 shrink-0 mt-1" style={{ color: c.foreground, opacity: 0.3 }} />
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className={`${d.section} px-4`}>
+        <div
+          className="max-w-4xl mx-auto p-4 text-center"
+          style={{
+            borderRadius: cardR,
+            backgroundColor: c.primary + "10",
+            border: `1px solid ${c.primary}30`,
+          }}
+        >
+          <h3
+            className="text-sm font-bold mb-1"
+            style={{ fontFamily: headingFont, color: c.foreground }}
+          >
+            Subscribe to our newsletter
+          </h3>
+          <p className="text-[10px] mb-3" style={{ color: c.foreground, opacity: 0.6 }}>
+            Get weekly design insights delivered to your inbox.
+          </p>
+          <div
+            className="mx-auto w-full max-w-[200px] h-7 flex items-center justify-center text-[10px] font-semibold"
+            style={{
+              backgroundColor: c.primary,
+              color: c.background,
+              borderRadius: r,
+              ...(glow ? { boxShadow: `0 0 12px ${c.primary}40` } : {}),
+            }}
+          >
+            Subscribe
           </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer
-        className="px-6 py-8 text-center text-xs"
+        className="px-4 py-6 text-center text-[10px]"
         style={{ borderTop: `1px solid ${c.border}`, color: c.foreground, opacity: 0.4 }}
       >
         &copy; 2026 The Design Blog. All rights reserved.
