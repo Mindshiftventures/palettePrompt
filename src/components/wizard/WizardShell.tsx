@@ -12,7 +12,9 @@ import { PreviewPanel } from "@/components/preview/PreviewPanel";
 import { PromptOutput } from "@/components/output/PromptOutput";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, Code2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { PreviewViewport } from "@/types";
 
 const steps = [
   PageTypeStep,
@@ -26,6 +28,8 @@ const steps = [
 export function WizardShell() {
   const currentStep = useWizardStore((s) => s.currentStep);
   const setStep = useWizardStore((s) => s.setStep);
+  const previewViewport = useWizardStore((s) => s.previewViewport);
+  const setPreviewViewport = useWizardStore((s) => s.setPreviewViewport);
   const [showPrompt, setShowPrompt] = useState(false);
   const [mobileView, setMobileView] = useState<"controls" | "preview">("controls");
 
@@ -114,8 +118,8 @@ export function WizardShell() {
 
         {/* Right: Live preview */}
         <div
-          className={`flex-1 bg-muted/30 overflow-hidden ${
-            mobileView === "controls" ? "hidden md:block" : "block"
+          className={`flex-1 bg-muted/30 overflow-hidden flex flex-col ${
+            mobileView === "controls" ? "hidden md:flex" : "flex"
           }`}
         >
           {/* Mobile back button */}
@@ -130,7 +134,33 @@ export function WizardShell() {
             </Button>
           </div>
 
-          <PreviewPanel />
+          {/* Preview toolbar with viewport toggle */}
+          <div className="hidden md:flex items-center justify-end p-2 border-b border-border bg-background/80 backdrop-blur-sm shrink-0">
+            <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
+              {([
+                { id: "desktop" as PreviewViewport, icon: Monitor, label: "Desktop" },
+                { id: "mobile" as PreviewViewport, icon: Smartphone, label: "Mobile" },
+              ]).map(({ id, icon: Icon, label }) => (
+                <button
+                  key={id}
+                  onClick={() => setPreviewViewport(id)}
+                  title={label}
+                  className={cn(
+                    "flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all",
+                    previewViewport === id
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-hidden">
+            <PreviewPanel />
+          </div>
         </div>
       </div>
 

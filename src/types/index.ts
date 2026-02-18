@@ -8,6 +8,8 @@ export type EffectToggle = "grain" | "blur" | "glow" | "gradient";
 
 export type ToolTarget = "v0" | "lovable" | "figma-make" | "claude-code" | "cursor";
 
+export type PreviewViewport = "desktop" | "mobile";
+
 export type FontCategory = "sans" | "serif" | "mono" | "display" | "rounded";
 
 export type LayoutId =
@@ -86,6 +88,7 @@ export interface LayoutOption {
 export interface WizardState {
   currentStep: number;
   pageType: PageType;
+  previewViewport: PreviewViewport;
   styleId: string;
   colorThemeId: string;
   customBrandColor: string | null;
@@ -105,6 +108,7 @@ export interface WizardState {
 export interface WizardActions {
   setStep: (step: number) => void;
   setPageType: (type: PageType) => void;
+  setPreviewViewport: (viewport: PreviewViewport) => void;
   setStyleId: (id: string) => void;
   setColorThemeId: (id: string) => void;
   setCustomBrandColor: (color: string | null) => void;
