@@ -25,7 +25,7 @@ export function StyleShowcase() {
         return (
           <Link
             key={style.id}
-            href="/builder"
+            href={`/builder?style=${style.id}`}
             className="group flex flex-col rounded-lg border border-border overflow-hidden hover:border-primary/40 hover:shadow-md transition-all"
           >
             {/* Mini preview */}

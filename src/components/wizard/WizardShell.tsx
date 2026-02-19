@@ -8,7 +8,8 @@ import { TypographyStep } from "./steps/TypographyStep";
 import { EffectsStep } from "./steps/EffectsStep";
 import { PreviewPanel } from "@/components/preview/PreviewPanel";
 import { PromptOutput } from "@/components/output/PromptOutput";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone, Globe, ShoppingBag, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -34,8 +35,22 @@ export function WizardShell() {
   const setPreviewViewport = useWizardStore((s) => s.setPreviewViewport);
   const pageType = useWizardStore((s) => s.pageType);
   const setPageType = useWizardStore((s) => s.setPageType);
+  const applyStylePreset = useWizardStore((s) => s.applyStylePreset);
   const [showPrompt, setShowPrompt] = useState(false);
+
   const [mobileView, setMobileView] = useState<"controls" | "preview">("controls");
+
+  const searchParams = useSearchParams();
+  const hasAppliedInitialStyle = useRef(false);
+
+  useEffect(() => {
+    if (hasAppliedInitialStyle.current) return;
+    const styleParam = searchParams.get("style");
+    if (styleParam) {
+      applyStylePreset(styleParam);
+      hasAppliedInitialStyle.current = true;
+    }
+  }, [searchParams, applyStylePreset]);
 
   const StepComponent = steps[currentStep];
   const isLastStep = currentStep === steps.length - 1;

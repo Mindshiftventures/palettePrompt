@@ -6,34 +6,7 @@ import { StyleCard } from "../StyleCard";
 
 export function StyleStep() {
   const styleId = useWizardStore((s) => s.styleId);
-  const setStyleId = useWizardStore((s) => s.setStyleId);
-  const setColorThemeId = useWizardStore((s) => s.setColorThemeId);
-  const setFontPairingId = useWizardStore((s) => s.setFontPairingId);
-  const setLayoutId = useWizardStore((s) => s.setLayoutId);
-  const setDensity = useWizardStore((s) => s.setDensity);
-  const setBorderRadius = useWizardStore((s) => s.setBorderRadius);
-  const setShadowStyle = useWizardStore((s) => s.setShadowStyle);
-  const setEffect = useWizardStore((s) => s.setEffect);
-
-  const handleSelectStyle = (id: string) => {
-    const style = styles.find((s) => s.id === id);
-    if (!style) return;
-
-    setStyleId(id);
-    // Apply style defaults
-    setColorThemeId(style.defaults.colorThemeId);
-    setFontPairingId(style.defaults.fontPairingId);
-    setLayoutId(style.defaults.layoutId);
-    setDensity(style.defaults.density);
-    setBorderRadius(style.defaults.borderRadius);
-    setShadowStyle(style.defaults.shadowStyle);
-
-    // Reset all effects, then enable the style's defaults at medium intensity
-    setEffect("grain", style.defaults.effects.includes("grain") ? 60 : 0);
-    setEffect("blur", 0);
-    setEffect("glow", style.defaults.effects.includes("glow") ? 60 : 0);
-    setEffect("gradient", style.defaults.effects.includes("gradient") ? 60 : 0);
-  };
+  const applyStylePreset = useWizardStore((s) => s.applyStylePreset);
 
   return (
     <div>
@@ -48,7 +21,7 @@ export function StyleStep() {
             key={style.id}
             style={style}
             isSelected={styleId === style.id}
-            onClick={() => handleSelectStyle(style.id)}
+            onClick={() => applyStylePreset(style.id)}
           />
         ))}
       </div>
