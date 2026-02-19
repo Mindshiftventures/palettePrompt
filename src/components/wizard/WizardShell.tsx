@@ -11,8 +11,7 @@ import { PromptOutput } from "@/components/output/PromptOutput";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone, Globe, ShoppingBag, BookOpen, Shuffle } from "lucide-react";
-import { styles } from "@/data/styles";
+import { Eye, Code2, ChevronLeft, ChevronRight, Monitor, Smartphone, Globe, ShoppingBag, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { PreviewViewport, PageType } from "@/types";
 
@@ -38,6 +37,7 @@ export function WizardShell() {
   const setPageType = useWizardStore((s) => s.setPageType);
   const applyStylePreset = useWizardStore((s) => s.applyStylePreset);
   const [showPrompt, setShowPrompt] = useState(false);
+
   const [mobileView, setMobileView] = useState<"controls" | "preview">("controls");
 
   const searchParams = useSearchParams();
@@ -51,11 +51,6 @@ export function WizardShell() {
       hasAppliedInitialStyle.current = true;
     }
   }, [searchParams, applyStylePreset]);
-
-  const handleRandomise = () => {
-    const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-    applyStylePreset(randomStyle.id);
-  };
 
   const StepComponent = steps[currentStep];
   const isLastStep = currentStep === steps.length - 1;
@@ -108,16 +103,6 @@ export function WizardShell() {
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Back
-            </Button>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRandomise}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              <Shuffle className="h-4 w-4 mr-1" />
-              Randomise
             </Button>
 
             <div className="flex gap-2">

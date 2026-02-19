@@ -119,6 +119,7 @@ export interface WizardActions {
   setShadowStyle: (shadow: ShadowToken) => void;
   setEffect: (effect: keyof WizardState["effects"], value: number) => void;
   applyStylePreset: (styleId: string) => void;
+  randomiseAll: () => void;
   reset: () => void;
 }
 

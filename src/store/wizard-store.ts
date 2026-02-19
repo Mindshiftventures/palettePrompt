@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { WizardStore, PageType, PreviewViewport, LayoutId, DensityLevel, RadiusToken, ShadowToken, WizardState } from "@/types";
 import { styles } from "@/data/styles";
+import { colorThemes } from "@/data/colors";
+import { fontPairings } from "@/data/typography";
 
 const initialState: WizardState = {
   currentStep: 0,
@@ -57,6 +59,29 @@ export const useWizardStore = create<WizardStore>((set) => ({
         blur: style.defaults.effects.includes("blur") ? 60 : 0,
         glow: style.defaults.effects.includes("glow") ? 60 : 0,
         gradient: style.defaults.effects.includes("gradient") ? 60 : 0,
+      },
+    });
+  },
+  randomiseAll: () => {
+    const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+    const densities: DensityLevel[] = ["condensed", "standard", "relaxed", "spacious"];
+    const radii: RadiusToken[] = ["none", "subtle", "standard", "rounded", "pill"];
+    const shadows: ShadowToken[] = ["none", "subtle", "elevated", "hard"];
+    const layoutIds: LayoutId[] = ["hero-stacked", "bento-grid", "single-column", "sidebar-content", "full-width"];
+    set({
+      styleId: pick(styles).id,
+      colorThemeId: pick(colorThemes).id,
+      customBrandColor: null,
+      fontPairingId: pick(fontPairings).id,
+      layoutId: pick(layoutIds),
+      density: pick(densities),
+      borderRadius: pick(radii),
+      shadowStyle: pick(shadows),
+      effects: {
+        grain: Math.random() > 0.5 ? 60 : 0,
+        blur: Math.random() > 0.5 ? 60 : 0,
+        glow: Math.random() > 0.5 ? 60 : 0,
+        gradient: Math.random() > 0.5 ? 60 : 0,
       },
     });
   },

@@ -8,8 +8,10 @@ import {
   Paintbrush,
   Type,
   Sparkles,
+  Shuffle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const iconMap = {
   Layout,
@@ -22,6 +24,7 @@ const iconMap = {
 export function WizardSidebar() {
   const currentStep = useWizardStore((s) => s.currentStep);
   const setStep = useWizardStore((s) => s.setStep);
+  const randomiseAll = useWizardStore((s) => s.randomiseAll);
 
   return (
     <div className="w-[200px] h-full border-r border-border bg-card flex flex-col">
@@ -31,7 +34,8 @@ export function WizardSidebar() {
         </h1>
       </div>
 
-      <nav className="flex-1 p-3 space-y-1">
+      <nav className="flex-1 p-3 space-y-1 flex flex-col">
+        <div className="flex-1 space-y-1">
         {WIZARD_STEPS.map((step) => {
           const Icon = iconMap[step.icon as keyof typeof iconMap];
           const isActive = currentStep === step.id;
@@ -55,6 +59,17 @@ export function WizardSidebar() {
             </button>
           );
         })}
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={randomiseAll}
+          className="w-full mt-2 text-muted-foreground hover:text-foreground"
+        >
+          <Shuffle className="h-4 w-4 mr-2" />
+          Randomise
+        </Button>
       </nav>
     </div>
   );
