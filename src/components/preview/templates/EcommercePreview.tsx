@@ -35,7 +35,7 @@ const productImages: Record<string, string> = {
   "Leather Jacket": "1551028719-00167b16eac5",
   "Minimalist Watch": "1523275335684-37898b6baf30",
   "Canvas Sneakers": "1542291026-7eec264c27ff",
-  "Wool Blend Coat": "1539533018447-4520e521b924",
+  "Wool Blend Coat": "1515886657613-9f3515b0c78f",
 };
 
 const products = [

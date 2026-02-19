@@ -32,8 +32,8 @@ function usePreviewStyles() {
 }
 
 const articleImages: Record<string, string> = {
-  "Color": "1550684376-efef43ded1e4",
-  "Typography": "1481627834876-b7833e8f5e1f",
+  "Color": "1541701494587-cb58502866ab",
+  "Typography": "1456513080510-7bf3a84b82f8",
   "Engineering": "1461749280684-dccba630e2f6",
 };
 

@@ -34,8 +34,8 @@ export function WizardSidebar() {
         </h1>
       </div>
 
-      <nav className="flex-1 p-3 space-y-1 flex flex-col">
-        <div className="flex-1 space-y-1">
+      <nav className="flex-1 p-3">
+        <div className="space-y-1">
         {WIZARD_STEPS.map((step) => {
           const Icon = iconMap[step.icon as keyof typeof iconMap];
           const isActive = currentStep === step.id;
