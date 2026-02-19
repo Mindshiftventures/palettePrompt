@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**PalettePrompt** is a visual design-to-prompt generator that helps users create tool-optimized prompts for AI coding assistants (v0, Lovable, Figma Make, Claude Code, Cursor). Users pick a visual style, customize colors/typography/layout/effects, see a live preview, and get a perfectly crafted prompt tailored to their chosen tool.
+**PaletteKit** is a visual design-to-prompt generator that helps users create tool-optimized prompts for AI coding assistants (v0, Lovable, Figma Make, Claude Code, Cursor). Users pick a visual style, customize colors/typography/layout/effects, see a live preview, and get a perfectly crafted prompt tailored to their chosen tool.
 
 The app is entirely client-side (no backend required). It's free and requires no signup.
 

@@ -62,7 +62,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
           <span className="font-bold text-lg tracking-tight">
-            Palette<span className="text-primary">Prompt</span>
+            Palette<span className="text-primary">Kit</span>
           </span>
         </div>
         <Link
@@ -88,7 +88,7 @@ export default function HomePage() {
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
             AI tools produce generic output because prompts lack design specifics.
-            PalettePrompt lets you visually define your style, then generates
+            PaletteKit lets you visually define your style, then generates
             detailed, tool-optimized prompts that produce exactly what you envision.
           </p>
           <div className="flex items-center justify-center gap-4">
@@ -241,7 +241,7 @@ export default function HomePage() {
             <div className="hidden md:flex items-center justify-center">
               <div className="flex flex-col items-center gap-1">
                 <ArrowRight className="h-6 w-6 text-primary" />
-                <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">PalettePrompt</span>
+                <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">PaletteKit</span>
               </div>
             </div>
             <div className="md:hidden flex items-center justify-center py-1">
@@ -251,7 +251,7 @@ export default function HomePage() {
             {/* After */}
             <div className="p-6 bg-background rounded-xl border border-green-500/30 flex flex-col">
               <p className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">
-                PalettePrompt output
+                PaletteKit output
               </p>
               <p className="text-sm italic text-muted-foreground mb-4">
                 &quot;Neo-Brutalist: 3px black borders, hard 4px offset shadows, 0px radius. Palette: bg #000, primary #CCFF00...&quot;
@@ -296,7 +296,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border text-center text-xs text-muted-foreground">
         <p>
-          Built with Next.js, Tailwind CSS, and shadcn/ui. PalettePrompt is a
+          Built with Next.js, Tailwind CSS, and shadcn/ui. PaletteKit is a
           free, open tool.
         </p>
       </footer>

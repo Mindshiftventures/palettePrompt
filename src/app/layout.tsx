@@ -15,13 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PalettePrompt - Visual Style to AI Prompt Generator",
+  title: "PaletteKit - Visual Style to AI Prompt Generator",
   description:
     "Stop struggling with design prompts. Pick your style visually, get tool-optimized prompts for v0, Lovable, Figma Make, Claude Code, and Cursor.",
   openGraph: {
-    title: "PalettePrompt - Visual Style to AI Prompt Generator",
+    title: "PaletteKit - Visual Style to AI Prompt Generator",
     description:
       "Pick your style visually, get tool-optimized prompts for v0, Lovable, Figma Make, Claude Code, and Cursor.",
+    url: "https://palettekit.ai",
     type: "website",
   },
 };

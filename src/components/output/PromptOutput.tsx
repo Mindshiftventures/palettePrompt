@@ -32,7 +32,7 @@ export function PromptOutput({ onClose }: PromptOutputProps) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `palette-prompt-${activeTool}.txt`;
+    a.download = `palettekit-${activeTool}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }, [prompt, activeTool]);

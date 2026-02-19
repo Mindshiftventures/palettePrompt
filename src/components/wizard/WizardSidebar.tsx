@@ -27,7 +27,7 @@ export function WizardSidebar() {
     <div className="w-[200px] h-full border-r border-border bg-card flex flex-col">
       <div className="p-4 border-b border-border">
         <h1 className="font-bold text-lg tracking-tight">
-          Palette<span className="text-primary">Prompt</span>
+          Palette<span className="text-primary">Kit</span>
         </h1>
       </div>
 
