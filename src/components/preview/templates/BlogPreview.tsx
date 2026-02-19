@@ -31,6 +31,12 @@ function usePreviewStyles() {
   return { c, r, cardR, s, d, headingFont, bodyFont, glow };
 }
 
+const articleImages: Record<string, string> = {
+  "Color": "1550684376-efef43ded1e4",
+  "Typography": "1481627834876-b7833e8f5e1f",
+  "Engineering": "1461749280684-dccba630e2f6",
+};
+
 const posts = [
   {
     title: "The Future of Design Systems in 2026",
@@ -101,13 +107,14 @@ export function BlogPreview() {
               backgroundColor: c.background,
             }}
           >
-            {/* Featured image placeholder */}
-            <div className="aspect-[2/1]" style={{ backgroundColor: c.muted }}>
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="text-xs" style={{ color: c.foreground, opacity: 0.2 }}>
-                  Featured Image
-                </span>
-              </div>
+            {/* Featured image */}
+            <div className="aspect-[2/1] overflow-hidden" style={{ backgroundColor: c.muted }}>
+              <img
+                src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
+                alt="Featured"
+                className="w-full h-full object-cover"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              />
             </div>
             <div className="p-4">
               <div className="flex items-center gap-2 mb-2">
@@ -179,9 +186,18 @@ export function BlogPreview() {
             >
               {/* Thumbnail */}
               <div
-                className="w-16 h-16 shrink-0"
+                className="w-16 h-16 shrink-0 overflow-hidden"
                 style={{ backgroundColor: c.muted, borderRadius: cardR }}
-              />
+              >
+                {articleImages[post.tag] && (
+                  <img
+                    src={`https://images.unsplash.com/photo-${articleImages[post.tag]}?auto=format&fit=crop&w=128&h=128&q=80`}
+                    alt={post.tag}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
+                )}
+              </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span

@@ -118,6 +118,7 @@ export interface WizardActions {
   setBorderRadius: (radius: RadiusToken) => void;
   setShadowStyle: (shadow: ShadowToken) => void;
   setEffect: (effect: keyof WizardState["effects"], value: number) => void;
+  applyStylePreset: (styleId: string) => void;
   reset: () => void;
 }
 

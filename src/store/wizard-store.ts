@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { WizardStore, PageType, PreviewViewport, LayoutId, DensityLevel, RadiusToken, ShadowToken, WizardState } from "@/types";
+import { styles } from "@/data/styles";
 
 const initialState: WizardState = {
   currentStep: 0,
@@ -39,5 +40,25 @@ export const useWizardStore = create<WizardStore>((set) => ({
     set((state) => ({
       effects: { ...state.effects, [effect]: value },
     })),
+  applyStylePreset: (styleId: string) => {
+    const style = styles.find((s) => s.id === styleId);
+    if (!style) return;
+    set({
+      styleId: style.id,
+      colorThemeId: style.defaults.colorThemeId,
+      customBrandColor: null,
+      fontPairingId: style.defaults.fontPairingId,
+      layoutId: style.defaults.layoutId,
+      density: style.defaults.density,
+      borderRadius: style.defaults.borderRadius,
+      shadowStyle: style.defaults.shadowStyle,
+      effects: {
+        grain: style.defaults.effects.includes("grain") ? 60 : 0,
+        blur: style.defaults.effects.includes("blur") ? 60 : 0,
+        glow: style.defaults.effects.includes("glow") ? 60 : 0,
+        gradient: style.defaults.effects.includes("gradient") ? 60 : 0,
+      },
+    });
+  },
   reset: () => set(initialState),
 }));

@@ -31,6 +31,13 @@ function usePreviewStyles() {
   return { c, r, cardR, s, d, headingFont, bodyFont, glow };
 }
 
+const productImages: Record<string, string> = {
+  "Leather Jacket": "1551028719-00167b16eac5",
+  "Minimalist Watch": "1523275335684-37898b6baf30",
+  "Canvas Sneakers": "1542291026-7eec264c27ff",
+  "Wool Blend Coat": "1539533018447-4520e521b924",
+};
+
 const products = [
   { name: "Leather Jacket", price: "$249", rating: 4.8, reviews: 124, badge: "Best Seller" },
   { name: "Minimalist Watch", price: "$189", rating: 4.9, reviews: 89, badge: "New" },
@@ -114,11 +121,17 @@ export function EcommercePreview() {
                   backgroundColor: c.background,
                 }}
               >
-                {/* Product image placeholder */}
+                {/* Product image */}
                 <div
-                  className="relative w-24 shrink-0"
+                  className="relative w-24 shrink-0 overflow-hidden"
                   style={{ backgroundColor: c.muted }}
                 >
+                  <img
+                    src={`https://images.unsplash.com/photo-${productImages[product.name]}?auto=format&fit=crop&w=96&q=80`}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
                   {product.badge && (
                     <span
                       className="absolute top-1.5 left-1.5 text-[8px] font-bold px-1.5 py-0.5"
